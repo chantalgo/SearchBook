@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
+					   xmlns:s="library://ns.adobe.com/flex/spark"
+					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   creationComplete="windowedapplication1_creationCompleteHandler(event)"
+					   width.AllSearch="1100" height.AllSearch="900"
+					   height.loggedIn="900">
+	<fx:Script>
+		<![CDATA[
+			import com.facebook.graph.FacebookDesktop;
+			import mx.events.FlexEvent;
+			
+			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
+			{
+				FacebookDesktop.init("279597868748971", loginHandler );
+				
+			}
+			protected function loginHandler(success:Object,fail:Object):void { 
+				if(success){ 
+					currentState="loggedIn";
+					nameLbl.text=success.user.name;
+					userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
+					birthdayLbl.text=success.user.birthday;
+					FacebookDesktop.api("/me/statuses",getStatusHandler);
+					
+				}
+			}
+			protected function login():void
+			{
+				FacebookDesktop.login(loginHandler, ["user_birthday","read_stream", "friends_location"]);
+				
+			}
+			protected function logout():void { 
+				FacebookDesktop.logout(); 
+				currentState="loggedOut";
+			}
+			protected function getStatusHandler(result:Object, fail:Object):void {
+				statusLbl.text=result[0].message;
+			}
+
+			protected function userDisplayFunction(result:Object, fail:Object):void{
+					var resultInfo:InformationDisplay;
+					var toolTipInfo:String = new String();
+					
+					if(!(result.location == undefined)){
+						if(result.location.hasOwnProperty("name"))
+							toolTipInfo = result.location.name;
+					}
+					else{
+						toolTipInfo = "no result";
+					}
+					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
+					peopleResults.addElement(resultInfo);
+				
+			}
+			protected function groupDisplayFunction(result:Object, fail:Object):void{
+				var resultInfo:InformationDisplay;
+				var toolTipInfo:String = new String();
+				
+				if(result.hasOwnProperty("description"))
+					toolTipInfo = result.description;
+				
+				else{
+					toolTipInfo = "no result";
+				}
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo);
+				groupResults.addElement(resultInfo);
+				
+			}
+			protected function eventDisplayFunction(result:Object, fail:Object):void{
+				var resultInfo:InformationDisplay;
+				var toolTipInfo:String = new String();
+				
+				if(result.hasOwnProperty("location"))
+					toolTipInfo = result.location;
+				else{
+					toolTipInfo = "no result";
+				}
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
+				eventResults.addElement(resultInfo);
+				
+			}
+			protected function pageDisplayFunction(result:Object, fail:Object):void{
+				var resultInfo:InformationDisplay;
+				var toolTipInfo:String = new String();
+				
+				if(result.hasOwnProperty("category"))
+					toolTipInfo = result.category;
+				else{
+					toolTipInfo = "no result";
+				}
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
+				pageResults.addElement(resultInfo);
+				
+			}
+			
+			protected function userSearchResults(result:Object, fail:Object):void {
+				var count:int = 0;
+				
+				if (this.currentState == "AllSearch"){
+					while (count < 5){
+						FacebookDesktop.api(result[count].id, userDisplayFunction);
+						count++;
+					}
+				}	
+			}
+			protected function groupSearchResults(result:Object, fail:Object):void {
+				
+				var count:int = 0;
+				
+				if (this.currentState == "AllSearch"){
+					while (count < 5){
+						FacebookDesktop.api(result[count].id, groupDisplayFunction);
+						count++;
+					}
+				}
+				
+			}
+			protected function eventSearchResults(result:Object, fail:Object):void {
+				
+				var count:int = 0;
+				if (this.currentState == "AllSearch"){
+					while (count < 5){
+						FacebookDesktop.api(result[count].id, eventDisplayFunction);
+						count++;
+					}
+				}
+				
+			}
+			protected function pageSearchResults(result:Object, fail:Object):void {
+				var count:int = 0;
+				
+				if (this.currentState == "AllSearch"){
+					while (count < 5){
+						FacebookDesktop.api(result[count].id, pageDisplayFunction);
+						count++;
+					}
+				}
+				
+			}
+
+			
+			protected function searchBtn_clickHandler(event:MouseEvent):void
+			{
+				switch (radiogroup1.selection) {
+					case all :
+						this.currentState = "AllSearch";
+						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
+						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
+						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
+						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
+						break;
+					case people :
+						this.currentState = "AllSearch";
+						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
+						break;
+					case groups :
+						this.currentState = "AllSearch";
+						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
+						break;
+					case events :
+						this.currentState = "AllSearch";
+						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
+						break;
+					case pages :
+						this.currentState = "AllSearch";
+						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
+						break;
+					
+				}
+				
+				
+			}
+			
+			
+		]]>
+	</fx:Script>
+	<s:states>
+		<s:State name="loggedOut"/>
+		<s:State name="loggedIn"/>
+		<s:State name="AllSearch"/>
+	</s:states>
+	<fx:Declarations>
+		<s:RadioButtonGroup id="radiogroup1"/>
+		<!-- Place non-visual elements (e.g., services, value objects) here -->
+	</fx:Declarations>
+	<s:layout.AllSearch>
+		<s:BasicLayout/>
+	</s:layout.AllSearch>
+	<s:layout.loggedIn>
+		<s:BasicLayout/>
+	</s:layout.loggedIn>
+	<s:layout.loggedOut>
+		<s:BasicLayout/>
+	</s:layout.loggedOut>
+	<s:Button id="loginoutBtn" right="10" top="10" label="Log In"
+			  skinClass="skins.FBLogoutButtonSkin"
+			  label.AllSearch="Log Out" click.AllSearch="logout()"
+			  label.loggedIn="Log Out" click.loggedIn="logout()"
+			  click.loggedOut="login()" skinClass.loggedOut="skins.FBLoginButtonSkin"/>
+	<s:HGroup includeIn="AllSearch,loggedIn" x="10" y="247" width="409" height="200"
+			  x.AllSearch="10" y.AllSearch="0"
+			  x.loggedIn="10" y.loggedIn="10">
+		<s:Image id="userImg" includeIn="AllSearch,loggedIn" width="50"
+				 left.AllSearch="10" top.AllSearch="10"/>
+		<s:Form includeIn="AllSearch,loggedIn">
+			<s:FormItem label="User">
+				<s:Label id="nameLbl"/>
+			</s:FormItem>
+			<s:FormItem label="Birthday">
+				<s:Label id="birthdayLbl"/>
+			</s:FormItem>
+			<s:FormItem label="Status">
+				<s:Label id="statusLbl"/>
+			</s:FormItem>
+		</s:Form>
+	</s:HGroup>
+	<s:VGroup id="eventResults" includeIn="AllSearch" x="465" y="440" width="200" height="200"
+			  horizontalAlign="center" paddingBottom="20">
+		<s:Label fontWeight="bold" text="Events" textAlign="center" textDecoration="underline"
+				 verticalAlign="middle"/>
+	</s:VGroup>
+	<s:VGroup id="peopleResults" includeIn="AllSearch" x="465" y="10" width="200" height="221"
+			  horizontalAlign="center" paddingBottom="20">
+		<s:Label fontWeight="bold" text="People" textAlign="center" textDecoration="underline"
+				 verticalAlign="middle"/>
+	</s:VGroup>
+	<s:VGroup id="groupResults" includeIn="AllSearch" x="753" y="10" width="200" height="221"
+			  fontWeight="bold" horizontalAlign="center" paddingBottom="20"
+			  textDecoration="underline">
+		<s:Label text="Groups"/>
+	</s:VGroup>
+	<s:VGroup id="pageResults" includeIn="AllSearch" x="753" y="440" width="200" height="200"
+			  horizontalAlign="center" paddingBottom="20">
+		<s:Label fontWeight="bold" text="Page" textDecoration="underline"/>
+	</s:VGroup>
+	<s:Form includeIn="AllSearch,loggedIn" width="394" height="283"
+			x.AllSearch="10" y.AllSearch="286"
+			x.loggedIn="11" y.loggedIn="279">
+		<s:FormItem width="177"
+					width.loggedIn="345">
+			<s:layout>
+				<s:HorizontalLayout/>
+			</s:layout>
+			<s:TextInput id="searchBox"/>
+			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"/>
+		</s:FormItem>
+		<s:RadioButton id="all" label="All" groupName="radiogroup1"
+					   selected.loggedIn="true"/>
+		<s:RadioButton id="people" label="People" groupName="radiogroup1"/>
+		<s:RadioButton id="groups" label="Groups" groupName="radiogroup1"/>
+		<s:RadioButton id="events" label="Events" groupName="radiogroup1"/>
+		<s:RadioButton id="pages" label="Pages" groupName="radiogroup1"/>
+	</s:Form>
+</s:WindowedApplication>
