@@ -2,12 +2,18 @@
 <s:WindowedApplication xmlns:fx="http://ns.adobe.com/mxml/2009"
 					   xmlns:s="library://ns.adobe.com/flex/spark"
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
+					   xmlns:ns1="*"
 					   creationComplete="windowedapplication1_creationCompleteHandler(event)"
 					   width.AllSearch="1100" height.AllSearch="900"
-					   height.loggedIn="900">
+					   width.EventsSearch="1100" height.EventsSearch="900"
+					   width.GroupsSearch="1100" height.GroupsSearch="900"
+					   height.loggedIn="900"
+					   width.PagesSearch="1100" height.PagesSearch="900"
+					   width.PeopleSearch="1100" height.PeopleSearch="900">
 	<fx:Script>
 		<![CDATA[
 			import com.facebook.graph.FacebookDesktop;
+			
 			import mx.events.FlexEvent;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
@@ -97,73 +103,94 @@
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
 				
-				if (this.currentState == "AllSearch"){
+				
 					while (count < 5){
 						FacebookDesktop.api(result[count].id, userDisplayFunction);
 						count++;
-					}
-				}	
+					}		
 			}
 			protected function groupSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
-				
-				if (this.currentState == "AllSearch"){
+
 					while (count < 5){
 						FacebookDesktop.api(result[count].id, groupDisplayFunction);
 						count++;
 					}
-				}
-				
 			}
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
-				if (this.currentState == "AllSearch"){
+
 					while (count < 5){
 						FacebookDesktop.api(result[count].id, eventDisplayFunction);
 						count++;
 					}
-				}
-				
 			}
 			protected function pageSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
 				
-				if (this.currentState == "AllSearch"){
+
 					while (count < 5){
 						FacebookDesktop.api(result[count].id, pageDisplayFunction);
 						count++;
 					}
-				}
-				
 			}
 
 			
 			protected function searchBtn_clickHandler(event:MouseEvent):void
 			{
+				var tittle:Label = new Label;
+				
 				switch (radiogroup1.selection) {
 					case all :
 						this.currentState = "AllSearch";
+						peopleResults.removeAllElements();
+						groupResults.removeAllElements();
+						eventResults.removeAllElements();
+						pageResults.removeAllElements();
+						tittle.text = "People";
+						peopleResults.addElement(tittle);
+						var tittle2:Label = new Label;
+						tittle2.text = "Groups";
+						groupResults.addElement(tittle2);
+						var tittle3:Label = new Label;
+						tittle3.text = "Events";
+						eventResults.addElement(tittle3);
+						var tittle4:Label = new Label;
+						tittle4.text = "Pages";
+						pageResults.addElement(tittle4);
 						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
 						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
 						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
 						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
 						break;
 					case people :
-						this.currentState = "AllSearch";
+						this.currentState = "PeopleSearch";
+						peopleResults.removeAllElements();
+						tittle.text = "People";
+						peopleResults.addElement(tittle);
 						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
 						break;
 					case groups :
-						this.currentState = "AllSearch";
+						this.currentState = "GroupsSearch";
+						groupResults.removeAllElements();
+						tittle.text = "Groups";
+						groupResults.addElement(tittle);
 						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
 						break;
 					case events :
-						this.currentState = "AllSearch";
+						this.currentState = "EventsSearch";
+						eventResults.removeAllElements();
+						tittle.text = "Events";
+						eventResults.addElement(tittle);
 						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
 						break;
 					case pages :
-						this.currentState = "AllSearch";
+						this.currentState = "PagesSearch";
+						pageResults.removeAllElements();
+						tittle.text = "Pages";
+						pageResults.addElement(tittle);
 						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
 						break;
 					
@@ -179,6 +206,10 @@
 		<s:State name="loggedOut"/>
 		<s:State name="loggedIn"/>
 		<s:State name="AllSearch"/>
+		<s:State name="PeopleSearch"/>
+		<s:State name="GroupsSearch"/>
+		<s:State name="EventsSearch"/>
+		<s:State name="PagesSearch"/>
 	</s:states>
 	<fx:Declarations>
 		<s:RadioButtonGroup id="radiogroup1"/>
@@ -193,17 +224,42 @@
 	<s:layout.loggedOut>
 		<s:BasicLayout/>
 	</s:layout.loggedOut>
+	<s:layout.PeopleSearch>
+		<s:BasicLayout/>
+	</s:layout.PeopleSearch>
+	<s:layout.GroupsSearch>
+		<s:BasicLayout/>
+	</s:layout.GroupsSearch>
+	<s:layout.EventsSearch>
+		<s:BasicLayout/>
+	</s:layout.EventsSearch>
+	<s:layout.PagesSearch>
+		<s:BasicLayout/>
+	</s:layout.PagesSearch>
 	<s:Button id="loginoutBtn" right="10" top="10" label="Log In"
 			  skinClass="skins.FBLogoutButtonSkin"
 			  label.AllSearch="Log Out" click.AllSearch="logout()"
+			  label.EventsSearch="Log Out" click.EventsSearch="logout()"
+			  label.GroupsSearch="Log Out" click.GroupsSearch="logout()"
 			  label.loggedIn="Log Out" click.loggedIn="logout()"
-			  click.loggedOut="login()" skinClass.loggedOut="skins.FBLoginButtonSkin"/>
-	<s:HGroup includeIn="AllSearch,loggedIn" x="10" y="247" width="409" height="200"
+			  click.loggedOut="login()" skinClass.loggedOut="skins.FBLoginButtonSkin"
+			  label.PagesSearch="Log Out" click.PagesSearch="logout()"
+			  label.PeopleSearch="Log Out" click.PeopleSearch="logout()"/>
+	<s:HGroup includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
+			  width="409" height="200"
 			  x.AllSearch="10" y.AllSearch="0"
-			  x.loggedIn="10" y.loggedIn="10">
-		<s:Image id="userImg" includeIn="AllSearch,loggedIn" width="50"
-				 left.AllSearch="10" top.AllSearch="10"/>
-		<s:Form includeIn="AllSearch,loggedIn">
+			  x.EventsSearch="10" y.EventsSearch="0" width.EventsSearch="355"
+			  x.GroupsSearch="10" y.GroupsSearch="0" width.GroupsSearch="355"
+			  x.loggedIn="10" y.loggedIn="10"
+			  x.PagesSearch="10" y.PagesSearch="0" width.PagesSearch="355"
+			  x.PeopleSearch="10" y.PeopleSearch="0" width.PeopleSearch="355">
+		<s:Image id="userImg" width="50"
+				 left.AllSearch="10" top.AllSearch="10"
+				 left.EventsSearch="10" top.EventsSearch="10"
+				 left.GroupsSearch="10" top.GroupsSearch="10"
+				 left.PagesSearch="10" top.PagesSearch="10"
+				 left.PeopleSearch="10" top.PeopleSearch="10"/>
+		<s:Form>
 			<s:FormItem label="User">
 				<s:Label id="nameLbl"/>
 			</s:FormItem>
@@ -215,28 +271,14 @@
 			</s:FormItem>
 		</s:Form>
 	</s:HGroup>
-	<s:VGroup id="eventResults" includeIn="AllSearch" x="465" y="440" width="200" height="200"
-			  horizontalAlign="center" paddingBottom="20">
-		<s:Label fontWeight="bold" text="Events" textAlign="center" textDecoration="underline"
-				 verticalAlign="middle"/>
-	</s:VGroup>
-	<s:VGroup id="peopleResults" includeIn="AllSearch" x="465" y="10" width="200" height="221"
-			  horizontalAlign="center" paddingBottom="20">
-		<s:Label fontWeight="bold" text="People" textAlign="center" textDecoration="underline"
-				 verticalAlign="middle"/>
-	</s:VGroup>
-	<s:VGroup id="groupResults" includeIn="AllSearch" x="753" y="10" width="200" height="221"
-			  fontWeight="bold" horizontalAlign="center" paddingBottom="20"
-			  textDecoration="underline">
-		<s:Label text="Groups"/>
-	</s:VGroup>
-	<s:VGroup id="pageResults" includeIn="AllSearch" x="753" y="440" width="200" height="200"
-			  horizontalAlign="center" paddingBottom="20">
-		<s:Label fontWeight="bold" text="Page" textDecoration="underline"/>
-	</s:VGroup>
-	<s:Form includeIn="AllSearch,loggedIn" width="394" height="283"
+	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
+			width="394" height="283"
 			x.AllSearch="10" y.AllSearch="286"
-			x.loggedIn="11" y.loggedIn="279">
+			x.EventsSearch="14" y.EventsSearch="285" width.EventsSearch="344"
+			x.GroupsSearch="14" y.GroupsSearch="285" width.GroupsSearch="344"
+			x.loggedIn="11" y.loggedIn="279"
+			x.PagesSearch="14" y.PagesSearch="285" width.PagesSearch="344"
+			x.PeopleSearch="14" y.PeopleSearch="285" width.PeopleSearch="344">
 		<s:FormItem width="177"
 					width.loggedIn="345">
 			<s:layout>
@@ -246,10 +288,73 @@
 			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"/>
 		</s:FormItem>
 		<s:RadioButton id="all" label="All" groupName="radiogroup1"
-					   selected.loggedIn="true"/>
-		<s:RadioButton id="people" label="People" groupName="radiogroup1"/>
-		<s:RadioButton id="groups" label="Groups" groupName="radiogroup1"/>
-		<s:RadioButton id="events" label="Events" groupName="radiogroup1"/>
-		<s:RadioButton id="pages" label="Pages" groupName="radiogroup1"/>
+					   selected.AllSearch="true"
+					   selected.EventsSearch="false"
+					   selected.GroupsSearch="false"
+					   selected.loggedIn="true"
+					   selected.PagesSearch="false"
+					   selected.PeopleSearch="false"/>
+		<s:RadioButton id="people" label="People" groupName="radiogroup1"
+					   selected.AllSearch="false"
+					   selected.EventsSearch="false"
+					   selected.GroupsSearch="false"
+					   selected.loggedIn="false"
+					   selected.PagesSearch="false"
+					   selected.PeopleSearch="true"/>
+		<s:RadioButton id="groups" label="Groups" groupName="radiogroup1"
+					   selected.AllSearch="false"
+					   selected.EventsSearch="false"
+					   selected.GroupsSearch="true"
+					   selected.loggedIn="false"
+					   selected.PagesSearch="false"
+					   selected.PeopleSearch="false"/>
+		<s:RadioButton id="events" label="Events" groupName="radiogroup1"
+					   selected.AllSearch="false"
+					   selected.EventsSearch="true"
+					   selected.GroupsSearch="false"
+					   selected.loggedIn="false"
+					   selected.PagesSearch="false"
+					   selected.PeopleSearch="false"/>
+		<s:RadioButton id="pages" label="Pages" groupName="radiogroup1" selected="true"
+					   selected.AllSearch="false"
+					   selected.EventsSearch="false"
+					   selected.GroupsSearch="false"
+					   selected.loggedIn="false"
+					   selected.PagesSearch="true"
+					   selected.PeopleSearch="false"/>
 	</s:Form>
+	<s:Group id="displayGroup" x="586" y="19" width="420" height="507"
+			 x.AllSearch="423" y.AllSearch="10" width.AllSearch="548" height.AllSearch="715"
+			 x.EventsSearch="393" width.EventsSearch="585" height.EventsSearch="678"
+			 x.GroupsSearch="378" y.GroupsSearch="10" width.GroupsSearch="599"
+			 height.GroupsSearch="665"
+			 x.PagesSearch="369" y.PagesSearch="10" width.PagesSearch="605" height.PagesSearch="648"
+			 x.PeopleSearch="388" y.PeopleSearch="10" width.PeopleSearch="556"
+			 height.PeopleSearch="649">
+		<ns1:CircleDrawer x="150" y="200" width="52" height="58"/>
+		<s:VGroup id="peopleResults" includeIn="AllSearch,PeopleSearch" x="22" y="10" width="200"
+				  height="200" horizontalAlign="center"
+				  width.PeopleSearch="485" height.PeopleSearch="614">
+			
+		</s:VGroup>
+		<s:VGroup id="groupResults" includeIn="AllSearch,GroupsSearch" x="300" y="10" width="200"
+				  height="200" horizontalAlign="center"
+				  x.GroupsSearch="24" y.GroupsSearch="10" width.GroupsSearch="517"
+				  height.GroupsSearch="624">
+			
+		</s:VGroup>
+		<s:VGroup id="eventResults" includeIn="AllSearch,EventsSearch" x="22" y="510" width="200"
+				  height="200" horizontalAlign="center"
+				  x.EventsSearch="48" y.EventsSearch="17" width.EventsSearch="490"
+				  height.EventsSearch="608">
+			
+		</s:VGroup>
+		<s:VGroup id="pageResults" includeIn="AllSearch,PagesSearch" x="300" y="510" width="200"
+				  height="200" horizontalAlign="center"
+				  x.PagesSearch="32" y.PagesSearch="15" width.PagesSearch="545"
+				  height.PagesSearch="600">
+			
+		</s:VGroup>
+	</s:Group>
+	
 </s:WindowedApplication>
