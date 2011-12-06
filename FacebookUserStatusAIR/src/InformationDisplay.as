@@ -34,7 +34,7 @@ package
 			resultURL = url;
 			
 			resultPicture.source = picture;
-			var nameLabel = new Label;
+			var nameLabel:Label = new Label;
 			nameLabel.width = 100;
 			nameLabel.text = resultName;
 			//horizontalGroup
