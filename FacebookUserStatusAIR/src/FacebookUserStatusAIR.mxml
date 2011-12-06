@@ -218,9 +218,6 @@
 	<s:layout.AllSearch>
 		<s:BasicLayout/>
 	</s:layout.AllSearch>
-	<s:layout.loggedIn>
-		<s:BasicLayout/>
-	</s:layout.loggedIn>
 	<s:layout.loggedOut>
 		<s:BasicLayout/>
 	</s:layout.loggedOut>
@@ -236,23 +233,14 @@
 	<s:layout.PagesSearch>
 		<s:BasicLayout/>
 	</s:layout.PagesSearch>
-	<s:Button id="loginoutBtn" right="10" top="10" label="Log In"
-			  skinClass="skins.FBLogoutButtonSkin"
-			  label.AllSearch="Log Out" click.AllSearch="logout()"
-			  label.EventsSearch="Log Out" click.EventsSearch="logout()"
-			  label.GroupsSearch="Log Out" click.GroupsSearch="logout()"
-			  label.loggedIn="Log Out" click.loggedIn="logout()"
-			  click.loggedOut="login()" skinClass.loggedOut="skins.FBLoginButtonSkin"
-			  label.PagesSearch="Log Out" click.PagesSearch="logout()"
-			  label.PeopleSearch="Log Out" click.PeopleSearch="logout()"/>
 	<s:HGroup includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
 			  width="409" height="200"
-			  x.AllSearch="10" y.AllSearch="0"
-			  x.EventsSearch="10" y.EventsSearch="0" width.EventsSearch="355"
-			  x.GroupsSearch="10" y.GroupsSearch="0" width.GroupsSearch="355"
-			  x.loggedIn="10" y.loggedIn="10"
-			  x.PagesSearch="10" y.PagesSearch="0" width.PagesSearch="355"
-			  x.PeopleSearch="10" y.PeopleSearch="0" width.PeopleSearch="355">
+			  x.AllSearch="10" y.AllSearch="85"
+			  x.EventsSearch="10" y.EventsSearch="64" width.EventsSearch="355"
+			  x.GroupsSearch="10" y.GroupsSearch="66" width.GroupsSearch="355"
+			  x.loggedIn="10" y.loggedIn="63"
+			  x.PagesSearch="10" y.PagesSearch="81" width.PagesSearch="355"
+			  x.PeopleSearch="10" y.PeopleSearch="78" width.PeopleSearch="355">
 		<s:Image id="userImg" width="50"
 				 left.AllSearch="10" top.AllSearch="10"
 				 left.EventsSearch="10" top.EventsSearch="10"
@@ -273,12 +261,12 @@
 	</s:HGroup>
 	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
 			width="394" height="283"
-			x.AllSearch="10" y.AllSearch="286"
-			x.EventsSearch="14" y.EventsSearch="285" width.EventsSearch="344"
-			x.GroupsSearch="14" y.GroupsSearch="285" width.GroupsSearch="344"
-			x.loggedIn="11" y.loggedIn="279"
-			x.PagesSearch="14" y.PagesSearch="285" width.PagesSearch="344"
-			x.PeopleSearch="14" y.PeopleSearch="285" width.PeopleSearch="344">
+			x.AllSearch="10" y.AllSearch="371"
+			x.EventsSearch="14" y.EventsSearch="349" width.EventsSearch="344"
+			x.GroupsSearch="14" y.GroupsSearch="351" width.GroupsSearch="344"
+			x.loggedIn="11" y.loggedIn="332"
+			x.PagesSearch="14" y.PagesSearch="366" width.PagesSearch="344"
+			x.PeopleSearch="14" y.PeopleSearch="363" width.PeopleSearch="344">
 		<s:FormItem width="177"
 					width.loggedIn="345">
 			<s:layout>
@@ -324,12 +312,14 @@
 					   selected.PeopleSearch="false"/>
 	</s:Form>
 	<s:Group id="displayGroup" x="586" y="19" width="420" height="507"
-			 x.AllSearch="423" y.AllSearch="10" width.AllSearch="548" height.AllSearch="715"
-			 x.EventsSearch="393" width.EventsSearch="585" height.EventsSearch="678"
-			 x.GroupsSearch="378" y.GroupsSearch="10" width.GroupsSearch="599"
+			 x.AllSearch="423" y.AllSearch="95" width.AllSearch="548" height.AllSearch="715"
+			 x.EventsSearch="393" y.EventsSearch="83" width.EventsSearch="585"
+			 height.EventsSearch="678"
+			 x.GroupsSearch="378" y.GroupsSearch="76" width.GroupsSearch="599"
 			 height.GroupsSearch="665"
-			 x.PagesSearch="369" y.PagesSearch="10" width.PagesSearch="605" height.PagesSearch="648"
-			 x.PeopleSearch="388" y.PeopleSearch="10" width.PeopleSearch="556"
+			 x.loggedIn="586" y.loggedIn="72"
+			 x.PagesSearch="369" y.PagesSearch="91" width.PagesSearch="605" height.PagesSearch="648"
+			 x.PeopleSearch="388" y.PeopleSearch="88" width.PeopleSearch="556"
 			 height.PeopleSearch="649">
 		<ns1:CircleDrawer x="150" y="200" width="52" height="58"/>
 		<s:VGroup id="peopleResults" includeIn="AllSearch,PeopleSearch" x="22" y="10" width="200"
@@ -356,5 +346,37 @@
 			
 		</s:VGroup>
 	</s:Group>
+	<s:Image id="searchbooktitleBar" source="assets/searchbook_title.png"
+			 x.AllSearch="1" y.AllSearch="1"
+			 x.EventsSearch="-1" y.EventsSearch="1"
+			 x.GroupsSearch="1" y.GroupsSearch="1"
+			 left.loggedIn="1" top.loggedIn="1"
+			 x.loggedOut="1" y.loggedOut="-1"
+			 x.PagesSearch="0" y.PagesSearch="0"
+			 x.PeopleSearch="0" y.PeopleSearch="0"/>
+	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="19" top="10" label="Log In"
+			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
+	<s:Button id="loginoutBtn1" includeIn="loggedIn" right="10" top="13" label="Log Out"
+			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<s:Button id="loginoutBtn2" includeIn="AllSearch" right="10" top="11" label="Log Out"
+			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<s:Button id="loginoutBtn3" includeIn="PeopleSearch" right="10" top="13" label="Log Out"
+			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<s:Button id="loginoutBtn4" includeIn="GroupsSearch" right="10" top="13" label="Log Out"
+			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<s:Button id="loginoutBtn5" includeIn="EventsSearch" right="10" top="12" label="Log Out"
+			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<s:Button id="loginoutBtn" includeIn="PagesSearch" right="10" top="14" label="Log Out"
+			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<mx:LinkButton id="helpLink" label="help"
+				   click="navigateToURL(new URLRequest('http://www.cs.columbia.edu/~cg2486/ui/searchbook/user_manual.html'),'User Manual')"
+				   color="#FFFFFF" enabled="true" fontFamily="Verdana" textDecoration="underline"
+				   right.AllSearch="129" top.AllSearch="12"
+				   right.EventsSearch="107" top.EventsSearch="10"
+				   right.GroupsSearch="118" top.GroupsSearch="13"
+				   right.loggedIn="107" top.loggedIn="11"
+				   right.loggedOut="121" top.loggedOut="11"
+				   right.PagesSearch="108" top.PagesSearch="12"
+				   right.PeopleSearch="109" top.PeopleSearch="13"/>
 	
 </s:WindowedApplication>
