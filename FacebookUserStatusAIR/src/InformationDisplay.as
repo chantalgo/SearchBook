@@ -22,6 +22,7 @@ package
 		var resultPicture:Image;
 		var resultName:String;
 		var resultURL:String;
+		var nameLabel:Label;
 		
 		public function InformationDisplay(name:String, url:String,  picture:String, toolTipString:String)
 		{
@@ -34,7 +35,7 @@ package
 			resultURL = url;
 			
 			resultPicture.source = picture;
-			var nameLabel:Label = new Label;
+			nameLabel = new Label;
 			nameLabel.width = 100;
 			nameLabel.text = resultName;
 			//horizontalGroup
@@ -50,7 +51,8 @@ package
             ToolTipManager.showDelay = 0;
 			ToolTipManager.showEffect = fadeIn;
 			this.toolTip=toolTipString;
-			//this.addElement(horizontalGroup);
+			this.addEventListener(MouseEvent.MOUSE_OVER, mouseOverFunction);
+			this.addEventListener(MouseEvent.MOUSE_OUT, mouseOutFunction);
 			
 			
 			
@@ -58,6 +60,14 @@ package
 		
 		public function InformationClick(event:MouseEvent):void{
 			navigateToURL(new URLRequest(resultURL));
+		}
+		public function mouseOverFunction(event:MouseEvent):void{
+			this.setStyle("backgroundColor", "0x000000");
+			nameLabel.setStyle("color", "0xFFFFFF");
+		}
+		public function mouseOutFunction(event:MouseEvent):void{
+			this.setStyle("backgroundColor", "0x5D81F6");
+			nameLabel.setStyle("color", "0x000000");
 		}
 
 		
