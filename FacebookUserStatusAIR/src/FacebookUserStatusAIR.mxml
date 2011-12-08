@@ -4,17 +4,14 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ns1="*"
 					   creationComplete="windowedapplication1_creationCompleteHandler(event)"
-					   width.AllSearch="1100" height.AllSearch="900"
-					   width.EventsSearch="1100" height.EventsSearch="900"
-					   width.GroupsSearch="1100" height.GroupsSearch="900"
-					   height.loggedIn="900"
-					   width.PagesSearch="1100" height.PagesSearch="900"
-					   width.PeopleSearch="1100" height.PeopleSearch="900">
+					   width="1024" height="768">
 	<fx:Script>
 		<![CDATA[
 			import com.facebook.graph.FacebookDesktop;
 			
 			import mx.events.FlexEvent;
+			
+			import spark.components.Label;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -24,10 +21,10 @@
 			protected function loginHandler(success:Object,fail:Object):void { 
 				if(success){ 
 					currentState="loggedIn";
-					nameLbl.text=success.user.name;
-					userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
-					birthdayLbl.text=success.user.birthday;
-					FacebookDesktop.api("/me/statuses",getStatusHandler);
+					//nameLbl.text=success.user.name;
+					//userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
+					//birthdayLbl.text=success.user.birthday;
+					//FacebookDesktop.api("/me/statuses",getStatusHandler);
 					
 				}
 			}
@@ -40,9 +37,9 @@
 				FacebookDesktop.logout(); 
 				currentState="loggedOut";
 			}
-			protected function getStatusHandler(result:Object, fail:Object):void {
+			/*protected function getStatusHandler(result:Object, fail:Object):void {
 				statusLbl.text=result[0].message;
-			}
+			}*/
 
 			protected function userDisplayFunction(result:Object, fail:Object):void{
 					var resultInfo:InformationDisplay;
@@ -233,40 +230,8 @@
 	<s:layout.PagesSearch>
 		<s:BasicLayout/>
 	</s:layout.PagesSearch>
-	<s:HGroup includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
-			  width="409" height="200"
-			  x.AllSearch="10" y.AllSearch="85"
-			  x.EventsSearch="10" y.EventsSearch="64" width.EventsSearch="355"
-			  x.GroupsSearch="10" y.GroupsSearch="66" width.GroupsSearch="355"
-			  x.loggedIn="10" y.loggedIn="63"
-			  x.PagesSearch="10" y.PagesSearch="81" width.PagesSearch="355"
-			  x.PeopleSearch="10" y.PeopleSearch="78" width.PeopleSearch="355">
-		<s:Image id="userImg" width="50"
-				 left.AllSearch="10" top.AllSearch="10"
-				 left.EventsSearch="10" top.EventsSearch="10"
-				 left.GroupsSearch="10" top.GroupsSearch="10"
-				 left.PagesSearch="10" top.PagesSearch="10"
-				 left.PeopleSearch="10" top.PeopleSearch="10"/>
-		<s:Form>
-			<s:FormItem label="User">
-				<s:Label id="nameLbl"/>
-			</s:FormItem>
-			<s:FormItem label="Birthday">
-				<s:Label id="birthdayLbl"/>
-			</s:FormItem>
-			<s:FormItem label="Status">
-				<s:Label id="statusLbl"/>
-			</s:FormItem>
-		</s:Form>
-	</s:HGroup>
 	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
-			width="394" height="283"
-			x.AllSearch="10" y.AllSearch="371"
-			x.EventsSearch="14" y.EventsSearch="349" width.EventsSearch="344"
-			x.GroupsSearch="14" y.GroupsSearch="351" width.GroupsSearch="344"
-			x.loggedIn="11" y.loggedIn="332"
-			x.PagesSearch="14" y.PagesSearch="366" width.PagesSearch="344"
-			x.PeopleSearch="14" y.PeopleSearch="363" width.PeopleSearch="344">
+			x="10" y="52" width="266" height="283">
 		<s:FormItem width="177"
 					width.loggedIn="345">
 			<s:layout>
@@ -311,16 +276,7 @@
 					   selected.PagesSearch="true"
 					   selected.PeopleSearch="false"/>
 	</s:Form>
-	<s:Group id="displayGroup" x="586" y="19" width="420" height="507"
-			 x.AllSearch="423" y.AllSearch="95" width.AllSearch="548" height.AllSearch="715"
-			 x.EventsSearch="393" y.EventsSearch="83" width.EventsSearch="585"
-			 height.EventsSearch="678"
-			 x.GroupsSearch="378" y.GroupsSearch="76" width.GroupsSearch="599"
-			 height.GroupsSearch="665"
-			 x.loggedIn="586" y.loggedIn="72"
-			 x.PagesSearch="369" y.PagesSearch="91" width.PagesSearch="605" height.PagesSearch="648"
-			 x.PeopleSearch="388" y.PeopleSearch="88" width.PeopleSearch="556"
-			 height.PeopleSearch="649">
+	<s:Group id="displayGroup"  x="284" y="52" width="730" height="690">
 		<ns1:CircleDrawer x="150" y="200" width="52" height="58"/>
 		<ns1:RectangleDrawer x="150" y="200" width="52" height="58" />
 		<s:VGroup id="peopleResults" includeIn="AllSearch,PeopleSearch" x="22" y="10" width="200"
@@ -336,12 +292,14 @@
 		</s:VGroup>
 		<s:VGroup id="eventResults" includeIn="AllSearch,EventsSearch" x="22" y="510" width="200"
 				  height="200" horizontalAlign="center"
+				  x.AllSearch="22" y.AllSearch="480"
 				  x.EventsSearch="48" y.EventsSearch="17" width.EventsSearch="490"
 				  height.EventsSearch="608">
 			
 		</s:VGroup>
 		<s:VGroup id="pageResults" includeIn="AllSearch,PagesSearch" x="300" y="510" width="200"
 				  height="200" horizontalAlign="center"
+				  x.AllSearch="300" y.AllSearch="480"
 				  x.PagesSearch="32" y.PagesSearch="15" width.PagesSearch="545"
 				  height.PagesSearch="600">
 			
