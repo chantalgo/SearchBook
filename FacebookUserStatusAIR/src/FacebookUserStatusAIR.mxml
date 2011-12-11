@@ -356,10 +356,8 @@
 				switch (radiogroup1.selection) {
 					case all :
 						this.currentState = "AllSearch";
-						peopleResults.removeAllElements();
-						groupResults.removeAllElements();
-						eventResults.removeAllElements();
-						pageResults.removeAllElements();
+						displayGroup.removeAllElements();
+						
 						tittle.text = "People";
 						peopleResults.addElement(tittle);
 						var tittle2:Label = new Label;
@@ -378,28 +376,28 @@
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
-						peopleResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "People";
 						peopleResults.addElement(tittle);
 						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
 						break;
 					case groups :
 						this.currentState = "GroupsSearch";
-						groupResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "Groups";
 						groupResults.addElement(tittle);
 						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
 						break;
 					case events :
 						this.currentState = "EventsSearch";
-						eventResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "Events";
 						eventResults.addElement(tittle);
 						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
 						break;
 					case pages :
 						this.currentState = "PagesSearch";
-						pageResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "Pages";
 						pageResults.addElement(tittle);
 						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
