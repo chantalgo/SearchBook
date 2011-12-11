@@ -190,7 +190,8 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-				var center:int = 320;
+				var centerX:int = 240;
+				var centerY:int = 320;
 				var height:int = 610;
 				var halfHeight:int = height/2;
 				var width:int = 875;
@@ -242,8 +243,8 @@
 						angle -= angleIncrement;
 						if (angle < 0)
 							angle+=360;
-						tempX = center + (distanceX)*Math.cos(angle*Math.PI/180);
-						tempY = center + (distanceY)*Math.sin(angle*Math.PI/180);
+						tempX = centerX + (distanceX)*Math.cos(angle*Math.PI/180);
+						tempY = centerY + (distanceY)*Math.sin(angle*Math.PI/180);
 						myArrayList.addItem(new Point(tempX , tempY));
 						j++;
 					}
