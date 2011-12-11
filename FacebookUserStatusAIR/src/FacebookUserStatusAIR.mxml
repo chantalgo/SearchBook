@@ -97,7 +97,7 @@
 					var stime:String = start.split("T",2)[1];
 					
 					
-					toolTipInfo += formatDate(sdate) + " " + formatTime(stime) + "\n";	
+					toolTipInfo += "Start: " + formatDate(sdate) + " " + formatTime(stime) + "\n";	
 				}
 				if (result.hasOwnProperty("end_time"))
 				{
@@ -105,7 +105,7 @@
 					var edate:String = end.split("T",2)[0];
 					var etime:String = end.split("T",2)[1];
 					
-					toolTipInfo += formatDate(edate) + " " + formatTime(etime) + "\n"
+					toolTipInfo += "End: " + formatDate(edate) + " " + formatTime(etime) + "\n"
 				}
 				if (result.hasOwnProperty("location"))
 				{
@@ -303,7 +303,17 @@
 				return hour + ":" + min + " " + flag;
 			}
 			
+			protected function searchBtn_enterHandler(event:FlexEvent):void
+			{
+				performSearch();
+			}
+			
 			protected function searchBtn_clickHandler(event:MouseEvent):void
+			{
+				performSearch();
+			}
+			
+			protected function performSearch():void
 			{
 				var tittle:Label = new Label;
 				
@@ -360,8 +370,6 @@
 						break;
 					
 				}
-				
-				
 			}
 			
 			
@@ -405,7 +413,7 @@
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
-			<s:TextInput id="searchBox"/>
+			<s:TextInput id="searchBox" enter="searchBtn_enterHandler(event)"/>
 			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"/>
 		</s:FormItem>
 		<s:RadioButton id="all" label="All" groupName="radiogroup1"
