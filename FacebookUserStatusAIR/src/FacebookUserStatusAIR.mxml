@@ -17,6 +17,9 @@
 			
 			import spark.components.Label;
 			
+			var positions:ArrayList;
+			var counter:int;
+			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
 				FacebookDesktop.init("279597868748971", loginHandler );
@@ -62,7 +65,13 @@
 						toolTipInfo = result.name;
 					}
 					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-					peopleResults.addElement(resultInfo);
+					resultInfo.x = (positions.getItemAt(counter) as Point).x;
+					resultInfo.y = (positions.getItemAt(counter) as Point).y;
+
+					//peopleResults.addElement(resultInfo);
+					
+					displayGroup.addElement(resultInfo);
+					counter++;
 				
 			}
 			protected function groupDisplayFunction(result:Object, fail:Object):void{
@@ -129,11 +138,16 @@
 				var myList:ArrayList = calculatePositions();
 				var a:int = 0;
 				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-				while (a<myList.length){
+				//while (a<myList.length){
+				while(a<1){
 					myPoint = myList.getItemAt(a) as Point;
 					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
 					a++;
+					
 				}
+				
+				//displayGroup.addElement(new InformationDisplay().x
+				
 				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
 				//displayGroup.addElement(new RectangleDrawer2());
 			}
@@ -242,11 +256,16 @@
 			
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
+				//count2 = 0;
+				counter = 0;
 				
+				positions = calculatePositions();
 					//check index of array don't go out of Bounds
-					while (count < 5){
-						FacebookDesktop.api(result[count].id, userDisplayFunction);
+					while (count < 24){
+					//while (counter<24){
+						FacebookDesktop.api(result[counter].id, userDisplayFunction);
 						count++;
+						//counter++;
 					}		
 			}
 			protected function groupSearchResults(result:Object, fail:Object):void {
