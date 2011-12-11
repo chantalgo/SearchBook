@@ -4,6 +4,7 @@ package
 	import flash.net.URLRequest;
 	import flash.net.navigateToURL;
 	import flash.text.TextFormat;
+	import flash.text.TextFormatAlign;
 	
 	import mx.graphics.SolidColor;
 	import mx.managers.ToolTipManager;
@@ -13,10 +14,10 @@ package
 	import spark.components.Label;
 	import spark.components.SkinnableContainer;
 	import spark.effects.Fade;
-	import spark.layouts.HorizontalLayout;
+	import spark.layouts.VerticalLayout;
 	import spark.layouts.supportClasses.LayoutBase;
 	import spark.primitives.Rect;
-
+	
 	public class InformationDisplay extends SkinnableContainer
 	{
 		var resultPicture:Image;
@@ -27,16 +28,21 @@ package
 		public function InformationDisplay(name:String, url:String,  picture:String, toolTipString:String)
 		{
 			this.setStyle("backgroundColor", "0x5D81F6");
-			var hLayout:HorizontalLayout = new HorizontalLayout;
-			this.layout =hLayout;
-			//var horizontalGroup:HGroup= new HGroup;
+			this.setStyle("horizontalAlign", "center");
+			this.setStyle("textAlign", "center");
+			var vLayout:VerticalLayout = new VerticalLayout;
+			this.layout =vLayout;
+			
 			resultPicture = new Image;
 			resultName = name;
 			resultURL = url;
 			
 			resultPicture.source = picture;
+			resultPicture.setStyle("horizontalCenter", "0");
+			
 			nameLabel = new Label;
 			nameLabel.width = 100;
+			nameLabel.setStyle("textAlign", "center");
 			nameLabel.text = resultName;
 			//horizontalGroup
 			this.addElement(resultPicture);
@@ -48,7 +54,7 @@ package
 			fadeIn.alphaFrom = 0;
 			fadeIn.alphaTo = 1;
 			fadeIn.duration = 1000;
-            ToolTipManager.showDelay = 0;
+			ToolTipManager.showDelay = 0;
 			ToolTipManager.showEffect = fadeIn;
 			this.toolTip=toolTipString;
 			this.addEventListener(MouseEvent.MOUSE_OVER, mouseOverFunction);
@@ -69,8 +75,8 @@ package
 			this.setStyle("backgroundColor", "0x5D81F6");
 			nameLabel.setStyle("color", "0x000000");
 		}
-
 		
-
-}
+		
+		
+	}
 }
