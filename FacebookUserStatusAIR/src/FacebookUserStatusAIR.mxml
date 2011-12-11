@@ -95,7 +95,7 @@
 					var stime:String = start.split("T",2)[1];
 					
 					
-					toolTipInfo += formatDate(sdate) + " " + formatTime(stime) + "\n";	
+					toolTipInfo += "Start: " + formatDate(sdate) + " " + formatTime(stime) + "\n";	
 				}
 				if (result.hasOwnProperty("end_time"))
 				{
@@ -103,7 +103,7 @@
 					var edate:String = end.split("T",2)[0];
 					var etime:String = end.split("T",2)[1];
 					
-					toolTipInfo += formatDate(edate) + " " + formatTime(etime) + "\n"
+					toolTipInfo += "End: " + formatDate(edate) + " " + formatTime(etime) + "\n"
 				}
 				if (result.hasOwnProperty("location"))
 				{
