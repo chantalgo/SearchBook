@@ -29,6 +29,8 @@
 					
 				}
 			}
+			
+			//Calls a Facebook log in window 
 			protected function login():void
 			{
 				FacebookDesktop.login(loginHandler, ["user_birthday","read_stream", "friends_location"]);
