@@ -20,10 +20,10 @@ package
 	
 	public class InformationDisplay extends SkinnableContainer
 	{
-		var resultPicture:Image;
-		var resultName:String;
-		var resultURL:String;
-		var nameLabel:Label;
+		private var resultPicture:Image;
+		private var resultName:String;
+		private var resultURL:String;
+		private var nameLabel:Label;
 		
 		public function InformationDisplay(name:String, url:String,  picture:String, toolTipString:String)
 		{

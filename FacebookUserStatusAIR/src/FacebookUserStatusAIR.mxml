@@ -17,8 +17,8 @@
 			
 			import spark.components.Label;
 			
-			var positions:ArrayList;
-			var counter:int;
+			private var positions:ArrayList;
+			private var counter:int;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -49,9 +49,21 @@
 			/*protected function getStatusHandler(result:Object, fail:Object):void {
 				statusLbl.text=result[0].message;
 			}*/
-
+			
+			protected function displayResults(result:Object, toolTipInfo:String):void
+			{
+				var resultInfo:InformationDisplay;
+				
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
+				resultInfo.x = (positions.getItemAt(counter) as Point).x;
+				resultInfo.y = (positions.getItemAt(counter) as Point).y;
+				
+				displayGroup.addElement(resultInfo);
+				counter++;
+			}
+			
 			protected function userDisplayFunction(result:Object, fail:Object):void{
-					var resultInfo:InformationDisplay;
+					
 					var toolTipInfo:String = new String();
 					
 					if(!(result.location == undefined))
@@ -64,18 +76,10 @@
 					else{
 						toolTipInfo = result.name;
 					}
-					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-					resultInfo.x = (positions.getItemAt(counter) as Point).x;
-					resultInfo.y = (positions.getItemAt(counter) as Point).y;
-
-					//peopleResults.addElement(resultInfo);
 					
-					displayGroup.addElement(resultInfo);
-					counter++;
-				
+					displayResults(result, toolTipInfo);
 			}
 			protected function groupDisplayFunction(result:Object, fail:Object):void{
-				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("description"))
@@ -94,12 +98,10 @@
 				{
 					toolTipInfo = "(no description)";
 				}
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo);
-				groupResults.addElement(resultInfo);
+				displayResults(result, toolTipInfo);
 				
 			}
 			protected function eventDisplayFunction(result:Object, fail:Object):void{
-				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
 				if (result.hasOwnProperty("start_time"))
@@ -129,31 +131,29 @@
 					toolTipInfo = "no result";
 				}
 				
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-				eventResults.addElement(resultInfo);
+				displayResults(result, toolTipInfo);
 				
 			}
 			
-			protected function positioningDisplayFunction():void{
-				var myList:ArrayList = calculatePositions();
-				var a:int = 0;
-				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-				//while (a<myList.length){
-				while(a<1){
-					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
-					a++;
-					
-				}
-				
-				//displayGroup.addElement(new InformationDisplay().x
-				
-				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-				//displayGroup.addElement(new RectangleDrawer2());
-			}
+//			protected function positioningDisplayFunction():void{
+//				var myList:ArrayList = calculatePositions();
+//				var a:int = 0;
+//				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+//				//while (a<myList.length){
+//				while(a<1){
+//					myPoint = myList.getItemAt(a) as Point;
+//					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
+//					a++;
+//					
+//				}
+//				
+//				//displayGroup.addElement(new InformationDisplay().x
+//				
+//				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+//				//displayGroup.addElement(new RectangleDrawer2());
+//			}
 			
 			protected function pageDisplayFunction(result:Object, fail:Object):void{
-				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("category"))
@@ -178,10 +178,8 @@
 					toolTipInfo = "(no description)";
 				}
 				
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-				pageResults.addElement(resultInfo);
+				displayResults(result, toolTipInfo);
 				
-				positioningDisplayFunction();
 			}
 			
 			protected function calculatePositions():ArrayList{
@@ -273,9 +271,11 @@
 			protected function groupSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
+				counter = 0;
+				
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5 && count < result.length){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, groupDisplayFunction);
 						count++;
 					}
@@ -284,9 +284,11 @@
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
+				counter = 0;
+				
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5 && count < result.length){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, eventDisplayFunction);
 						count++;
 					}
@@ -294,9 +296,11 @@
 			}
 			protected function pageSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
+				counter = 0;
+				
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5 && count < result.length){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, pageDisplayFunction);
 						count++;
 					}
@@ -305,7 +309,6 @@
 			
 			protected function formatDate(date:String):String
 			{
-				
 				var arr:Array = date.split('-', 3);
 				
 				var date:String = arr[1] + "/" + arr[2] + "/" + arr[0];
