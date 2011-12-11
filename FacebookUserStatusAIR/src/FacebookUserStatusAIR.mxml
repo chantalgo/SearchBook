@@ -9,6 +9,7 @@
 		<![CDATA[
 			import com.facebook.graph.FacebookDesktop;
 			
+			import mx.collections.ArrayList;
 			import mx.events.FlexEvent;
 			
 			import spark.components.Label;
@@ -118,6 +119,20 @@
 				eventResults.addElement(resultInfo);
 				
 			}
+			
+			protected function positioningDisplayFunction():void{
+				var myList:ArrayList = calculatePositions();
+				var a:int = 0;
+				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+				while (a<myList.length){
+					myPoint = myList.getItemAt(a) as Point;
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
+					a++;
+				}
+				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+				//displayGroup.addElement(new RectangleDrawer2());
+			}
+			
 			protected function pageDisplayFunction(result:Object, fail:Object):void{
 				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
@@ -147,12 +162,76 @@
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
 				pageResults.addElement(resultInfo);
 				
+				positioningDisplayFunction();
+				
+//				var myList:ArrayList = calculatePositions();
+//				var a:int = 0;
+//				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+//				while (a<myList.length){
+//					myPoint = myList.getItemAt(a) as Point;
+//					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
+//					a++;
+//				}
+				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+				//displayGroup.addElement(new RectangleDrawer2());
+				
+			}
+			
+			protected function calculatePositions():ArrayList{
+				var myArrayList:ArrayList = new ArrayList();
+				
+				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
+				//var halfHeight:int = height/2;
+				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
+				var center:int = 345;
+				var height:int = center*2;
+				var halfHeight:int = height/2;
+				var width:int = 850;
+				var halfWidth:int = width/2;
+				
+				var numLevels:int = 3;
+				var i:int = 0;
+				var j:int = 0;
+				var numPoints:int = 0;
+				
+				var angle:int = 90;
+				var angleIncrement:int = 0;
+				var currentLevel:int = 0;
+				
+				var tempX:int = 0;
+				var tempY:int = 0;
+				var distanceX:int = 0;
+				var distanceY:int = 0;
+				
+				while(i<numLevels){ //loop through all levels
+					angle = 90;
+					currentLevel = i+1;
+					numPoints = currentLevel*4; //how many points to add per level
+					angleIncrement = 360/numPoints; //how much to increment the angle
+					//if (currentLevel==1)
+						distanceX = (halfHeight/numLevels)/2 /*+ 15*/ + (halfWidth/numLevels)*i;
+					//else
+						distanceY = (halfHeight/numLevels)/2 + (halfHeight/numLevels)*i;
+					while (j<numPoints){
+						angle -= angleIncrement;
+						if (angle < 0)
+							angle+=360;
+						tempX = center + (distanceX)*Math.cos(angle*Math.PI/180);
+						tempY = center + (distanceY)*Math.sin(angle*Math.PI/180);
+						myArrayList.addItem(new Point(tempX , tempY));
+						j++;
+					}
+					j = 0;
+					i++;
+				}
+				
+				return myArrayList;
 			}
 			
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
 				
-				
+					//check index of array don't go out of Bounds
 					while (count < 5){
 						FacebookDesktop.api(result[count].id, userDisplayFunction);
 						count++;
@@ -364,7 +443,9 @@
 					   selected.PeopleSearch="false"/>
 	</s:Form>
 	<s:Group id="displayGroup"  x="284" y="52" width="730" height="690">
-		<ns1:CircleDrawer x="150" y="200" width="52" height="58"/>
+		<!-- x="150" -->
+		<!--<ns1:CircleDrawer x="173" y="173" width="1" height="1"/>-->
+		<!--<ns1:RectangleDrawer x="0" y="0" width="1" height="1" />-->
 		<s:VGroup id="peopleResults" includeIn="AllSearch,PeopleSearch" x="22" y="10" width="200"
 				  height="200" horizontalAlign="center"
 				  width.PeopleSearch="485" height.PeopleSearch="614">
@@ -403,6 +484,7 @@
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
 	<s:Button id="loginoutBtn1" includeIn="loggedIn" right="10" top="13" label="Log Out"
 			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<!--<s:Button id="testPositions" skinClass="skins.FBLoginButtonSkin"-->
 	<s:Button id="loginoutBtn2" includeIn="AllSearch" right="10" top="11" label="Log Out"
 			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
 	<s:Button id="loginoutBtn3" includeIn="PeopleSearch" right="10" top="13" label="Log Out"
