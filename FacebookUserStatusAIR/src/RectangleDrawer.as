@@ -6,7 +6,7 @@ package
 
 	public class RectangleDrawer extends UIComponent
 	{	
-		public function RectangleDrawer(refX:int, refY:int, height:int, width:int)
+		public function RectangleDrawer(refX:int, refY:int, width:int, height:int)
 		{
 //			var refX:int = 100;
 //			var refY:int = 100;

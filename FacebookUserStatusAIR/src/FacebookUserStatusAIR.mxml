@@ -84,6 +84,20 @@
 				eventResults.addElement(resultInfo);
 				
 			}
+			
+			protected function positioningDisplayFunction(result:Object, fail:Object):void{
+				var myList:ArrayList = calculatePositions();
+				var a:int = 0;
+				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+				while (a<myList.length){
+					myPoint = myList.getItemAt(a) as Point;
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
+					a++;
+				}
+				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+				//displayGroup.addElement(new RectangleDrawer2());
+			}
+			
 			protected function pageDisplayFunction(result:Object, fail:Object):void{
 				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
@@ -381,6 +395,7 @@
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
 	<s:Button id="loginoutBtn1" includeIn="loggedIn" right="10" top="13" label="Log Out"
 			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
+	<!--<s:Button id="testPositions" skinClass="skins.FBLoginButtonSkin"-->
 	<s:Button id="loginoutBtn2" includeIn="AllSearch" right="10" top="11" label="Log Out"
 			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
 	<s:Button id="loginoutBtn3" includeIn="PeopleSearch" right="10" top="13" label="Log Out"
