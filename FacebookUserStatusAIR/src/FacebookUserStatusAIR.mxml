@@ -4,7 +4,10 @@
 					   xmlns:mx="library://ns.adobe.com/flex/mx"
 					   xmlns:ns1="*"
 					   creationComplete="windowedapplication1_creationCompleteHandler(event)"
-					   width="1024" height="768">
+					   width="1024" height="768"
+					   skinClass="skins.ScrollingSkin"
+					   maxWidth="1024"
+					   maxHeight="768">
 	<fx:Script>
 		<![CDATA[
 			import com.facebook.graph.FacebookDesktop;
@@ -489,14 +492,15 @@
 			
 		</s:VGroup>
 	</s:Group>
-	<s:Image id="searchbooktitleBar" source="assets/searchbook_title.png"
+	<s:Image id="searchbooktitleBar" source="assets/searchbook_title3.png"
 			 x.AllSearch="1" y.AllSearch="1"
 			 x.EventsSearch="-1" y.EventsSearch="1"
 			 x.GroupsSearch="1" y.GroupsSearch="1"
 			 left.loggedIn="1" top.loggedIn="1"
 			 x.loggedOut="1" y.loggedOut="-1"
 			 x.PagesSearch="0" y.PagesSearch="0"
-			 x.PeopleSearch="0" y.PeopleSearch="0"/>
+			 x.PeopleSearch="0" y.PeopleSearch="0"
+			 width="100%"/>	
 	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="19" top="10" label="Log In"
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
 	<s:Button id="loginoutBtn1" includeIn="loggedIn" right="10" top="13" label="Log Out"
