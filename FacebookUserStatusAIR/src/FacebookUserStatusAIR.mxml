@@ -128,7 +128,7 @@
 				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
 				while (a<myList.length){
 					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 105, 75));
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
 					a++;
 				}
 				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
