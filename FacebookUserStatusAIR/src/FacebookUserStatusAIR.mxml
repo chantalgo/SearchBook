@@ -122,7 +122,7 @@
 				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
 				while (a<myList.length){
 					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 50));
 					a++;
 				}
 				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
@@ -158,7 +158,7 @@
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
 				pageResults.addElement(resultInfo);
 				
-				positioningDisplayFunction();
+				//positioningDisplayFunction();
 				
 //				var myList:ArrayList = calculatePositions();
 //				var a:int = 0;
@@ -202,12 +202,31 @@
 				while(i<numLevels){ //loop through all levels
 					angle = 90;
 					currentLevel = i+1;
-					numPoints = currentLevel*4; //how many points to add per level
+					//numPoints = currentLevel*4; //how many points to add per level
+					if (currentLevel==1){
+						numPoints = 4;
+						angle=90;
+					}
+					else if (currentLevel==2){
+						numPoints = 8;
+						angle = 90;
+					}
+					else if (currentLevel==3){
+						numPoints = 12;
+						angle = 90;	
+					}
+					else{
+						numPoints = 4;
+					}
 					angleIncrement = 360/numPoints; //how much to increment the angle
-					//if (currentLevel==1)
-						distanceX = (halfHeight/numLevels)/2 /*+ 15*/ + (halfWidth/numLevels)*i;
-					//else
-						distanceY = (halfHeight/numLevels)/2 + (halfHeight/numLevels)*i;
+					if (currentLevel==1){
+						distanceX = /*(halfWidth/numLevels)/2 /*+ 15 + */(halfWidth/numLevels)*(i+1);
+						distanceY = /*(halfHeight/numLevels)/2 + */(halfHeight/numLevels)*(i+1);
+					}
+					else{
+						distanceX = /*(halfWidth/numLevels)/2 /*+ 15 + */(halfWidth/numLevels)*(i+1);
+						distanceY = /*(halfHeight/numLevels)/2 + */(halfHeight/numLevels)*(i+1);
+					}
 					while (j<numPoints){
 						angle -= angleIncrement;
 						if (angle < 0)
