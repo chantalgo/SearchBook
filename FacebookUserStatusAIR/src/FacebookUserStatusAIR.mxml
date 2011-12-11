@@ -260,40 +260,46 @@
 				counter = 0;
 				
 				positions = calculatePositions();
+			
+				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 24){
-					//while (counter<24){
-						FacebookDesktop.api(result[counter].id, userDisplayFunction);
+					while (count < 24 && count < result.length){
+						FacebookDesktop.api(result[count].id, userDisplayFunction);
 						count++;
-						//counter++;
-					}		
+					}
+				}
 			}
 			protected function groupSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
-
-					while (count < 5){
+				if (result.length > 0){
+					//check index of array don't go out of Bounds
+					while (count < 5 && count < result.length){
 						FacebookDesktop.api(result[count].id, groupDisplayFunction);
 						count++;
 					}
+				}
 			}
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
-
-					while (count < 5){
+				if (result.length > 0){
+					//check index of array don't go out of Bounds
+					while (count < 5 && count < result.length){
 						FacebookDesktop.api(result[count].id, eventDisplayFunction);
 						count++;
 					}
+				}
 			}
 			protected function pageSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
-				
-
-					while (count < 5){
+				if (result.length > 0){
+					//check index of array don't go out of Bounds
+					while (count < 5 && count < result.length){
 						FacebookDesktop.api(result[count].id, pageDisplayFunction);
 						count++;
 					}
+				}
 			}
 			
 			protected function formatDate(date:String):String

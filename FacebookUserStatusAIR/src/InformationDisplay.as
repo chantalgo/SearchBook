@@ -35,6 +35,9 @@ package
 			
 			resultPicture = new Image;
 			resultName = name;
+			if (resultName.length > 22)
+				resultName = resultName.slice(0, 19) + "...";
+			
 			resultURL = url;
 			
 			resultPicture.source = picture;
