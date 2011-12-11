@@ -31,6 +31,8 @@
 					
 				}
 			}
+			
+			//Calls a Facebook log in window 
 			protected function login():void
 			{
 				FacebookDesktop.login(loginHandler, ["user_birthday","read_stream", "friends_location"]);
@@ -58,7 +60,7 @@
 					else{
 						toolTipInfo = result.name;
 					}
-					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
+					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
 					peopleResults.addElement(resultInfo);
 				
 			}
@@ -82,7 +84,7 @@
 				{
 					toolTipInfo = "(no description)";
 				}
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo);
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo);
 				groupResults.addElement(resultInfo);
 				
 			}
@@ -117,7 +119,7 @@
 					toolTipInfo = "no result";
 				}
 				
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
 				eventResults.addElement(resultInfo);
 				
 			}
@@ -161,7 +163,7 @@
 					toolTipInfo = "(no description)";
 				}
 				
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
 				pageResults.addElement(resultInfo);
 				
 				positioningDisplayFunction();
