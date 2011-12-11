@@ -515,6 +515,7 @@
 				  height.PagesSearch="600">
 			
 		</s:VGroup>
+		<s:Image includeIn="loggedOut" x="-77" y="234" source="assets/intro.png"/>
 	</s:Group>
 	<s:Image id="searchbooktitleBar" source="assets/searchbook_title3.png"
 			 x.AllSearch="1" y.AllSearch="1"
