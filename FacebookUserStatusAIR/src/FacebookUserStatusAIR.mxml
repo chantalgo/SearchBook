@@ -128,7 +128,7 @@
 				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
 				while (a<myList.length){
 					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 50));
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 105, 75));
 					a++;
 				}
 				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
@@ -164,19 +164,7 @@
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
 				pageResults.addElement(resultInfo);
 				
-				//positioningDisplayFunction();
-				
-//				var myList:ArrayList = calculatePositions();
-//				var a:int = 0;
-//				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-//				while (a<myList.length){
-//					myPoint = myList.getItemAt(a) as Point;
-//					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
-//					a++;
-//				}
-				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-				//displayGroup.addElement(new RectangleDrawer2());
-				
+				positioningDisplayFunction();
 			}
 			
 			protected function calculatePositions():ArrayList{
@@ -185,10 +173,10 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-				var center:int = 345;
-				var height:int = center*2;
+				var center:int = 320;
+				var height:int = 610;
 				var halfHeight:int = height/2;
-				var width:int = 850;
+				var width:int = 875;
 				var halfWidth:int = width/2;
 				
 				var numLevels:int = 3;
@@ -226,12 +214,12 @@
 					}
 					angleIncrement = 360/numPoints; //how much to increment the angle
 					if (currentLevel==1){
-						distanceX = /*(halfWidth/numLevels)/2 /*+ 15 + */(halfWidth/numLevels)*(i+1);
-						distanceY = /*(halfHeight/numLevels)/2 + */(halfHeight/numLevels)*(i+1);
+						distanceX = 3*(halfWidth/numLevels)/4  + /*+ 15 + */(halfWidth/numLevels)*(i);
+						distanceY = 3*(halfHeight/numLevels)/4 + (halfHeight/numLevels)*(i);
 					}
 					else{
-						distanceX = /*(halfWidth/numLevels)/2 /*+ 15 + */(halfWidth/numLevels)*(i+1);
-						distanceY = /*(halfHeight/numLevels)/2 + */(halfHeight/numLevels)*(i+1);
+						distanceX = 3*(halfWidth/numLevels)/4 + /*+ 15 + */(halfWidth/numLevels)*(i);
+						distanceY = 3*(halfHeight/numLevels)/4 + (halfHeight/numLevels)*(i);
 					}
 					while (j<numPoints){
 						angle -= angleIncrement;
