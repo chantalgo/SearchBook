@@ -1,17 +1,18 @@
 package
 {
-	import mx.core.UIComponent;
 	import flash.display.Sprite;
+	
+	import mx.core.UIComponent;
 
 	public class RectangleDrawer extends UIComponent
 	{	
-		public function RectangleDrawer()
+		public function RectangleDrawer(refX:int, refY:int, height:int, width:int)
 		{
-			var refX:int = 200;
-			var refY:int = 200;
-			
-			var height:int = 50;
-			var width:int = 100;
+//			var refX:int = 100;
+//			var refY:int = 100;
+//			
+//			var height:int = 85;
+//			var width:int = 150;
 			
 				var square:Sprite= new Sprite;
 				square.graphics.lineStyle(3, 0x000000, 1);

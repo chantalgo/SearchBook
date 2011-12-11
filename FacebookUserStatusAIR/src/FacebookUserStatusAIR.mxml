@@ -95,6 +95,9 @@
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
 				pageResults.addElement(resultInfo);
 				
+				//displayGroup.addElement(new RectangleDrawer(100, 100, 85, 150));
+				displayGroup.addElement(new RectangleDrawer2());
+				
 			}
 			
 			protected function userSearchResults(result:Object, fail:Object):void {
@@ -277,8 +280,9 @@
 					   selected.PeopleSearch="false"/>
 	</s:Form>
 	<s:Group id="displayGroup"  x="284" y="52" width="730" height="690">
-		<ns1:CircleDrawer x="150" y="200" width="52" height="58"/>
-		<ns1:RectangleDrawer x="150" y="200" width="52" height="58" />
+		<!-- x="150" -->
+		<ns1:CircleDrawer x="0" y="0" width="1" height="1"/>
+		<!--<ns1:RectangleDrawer x="0" y="0" width="1" height="1" />-->
 		<s:VGroup id="peopleResults" includeIn="AllSearch,PeopleSearch" x="22" y="10" width="200"
 				  height="200" horizontalAlign="center"
 				  width.PeopleSearch="485" height.PeopleSearch="614">
