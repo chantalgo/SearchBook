@@ -17,6 +17,9 @@
 			
 			import spark.components.Label;
 			
+			var positions:ArrayList;
+			var counter:int;
+			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
 				FacebookDesktop.init("279597868748971", loginHandler );
@@ -62,7 +65,13 @@
 						toolTipInfo = result.name;
 					}
 					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-					peopleResults.addElement(resultInfo);
+					resultInfo.x = (positions.getItemAt(counter) as Point).x;
+					resultInfo.y = (positions.getItemAt(counter) as Point).y;
+
+					//peopleResults.addElement(resultInfo);
+					
+					displayGroup.addElement(resultInfo);
+					counter++;
 				
 			}
 			protected function groupDisplayFunction(result:Object, fail:Object):void{
@@ -129,11 +138,16 @@
 				var myList:ArrayList = calculatePositions();
 				var a:int = 0;
 				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-				while (a<myList.length){
+				//while (a<myList.length){
+				while(a<1){
 					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
 					a++;
+					
 				}
+				
+				//displayGroup.addElement(new InformationDisplay().x
+				
 				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
 				//displayGroup.addElement(new RectangleDrawer2());
 			}
@@ -168,18 +182,6 @@
 				pageResults.addElement(resultInfo);
 				
 				positioningDisplayFunction();
-				
-//				var myList:ArrayList = calculatePositions();
-//				var a:int = 0;
-//				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-//				while (a<myList.length){
-//					myPoint = myList.getItemAt(a) as Point;
-//					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 140, 85));
-//					a++;
-//				}
-				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-				//displayGroup.addElement(new RectangleDrawer2());
-				
 			}
 			
 			protected function calculatePositions():ArrayList{
@@ -188,10 +190,10 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-				var center:int = 345;
-				var height:int = center*2;
+				var center:int = 320;
+				var height:int = 610;
 				var halfHeight:int = height/2;
-				var width:int = 850;
+				var width:int = 875;
 				var halfWidth:int = width/2;
 				
 				var numLevels:int = 3;
@@ -211,12 +213,31 @@
 				while(i<numLevels){ //loop through all levels
 					angle = 90;
 					currentLevel = i+1;
-					numPoints = currentLevel*4; //how many points to add per level
+					//numPoints = currentLevel*4; //how many points to add per level
+					if (currentLevel==1){
+						numPoints = 4;
+						angle=90;
+					}
+					else if (currentLevel==2){
+						numPoints = 8;
+						angle = 90;
+					}
+					else if (currentLevel==3){
+						numPoints = 12;
+						angle = 90;	
+					}
+					else{
+						numPoints = 4;
+					}
 					angleIncrement = 360/numPoints; //how much to increment the angle
-					//if (currentLevel==1)
-						distanceX = (halfHeight/numLevels)/2 /*+ 15*/ + (halfWidth/numLevels)*i;
-					//else
-						distanceY = (halfHeight/numLevels)/2 + (halfHeight/numLevels)*i;
+					if (currentLevel==1){
+						distanceX = 3*(halfWidth/numLevels)/4  + /*+ 15 + */(halfWidth/numLevels)*(i);
+						distanceY = 3*(halfHeight/numLevels)/4 + (halfHeight/numLevels)*(i);
+					}
+					else{
+						distanceX = 3*(halfWidth/numLevels)/4 + /*+ 15 + */(halfWidth/numLevels)*(i);
+						distanceY = 3*(halfHeight/numLevels)/4 + (halfHeight/numLevels)*(i);
+					}
 					while (j<numPoints){
 						angle -= angleIncrement;
 						if (angle < 0)
@@ -235,39 +256,50 @@
 			
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
+				//count2 = 0;
+				counter = 0;
 				
+				positions = calculatePositions();
+			
+				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, userDisplayFunction);
 						count++;
-					}		
+					}
+				}
 			}
 			protected function groupSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
-
-					while (count < 5){
+				if (result.length > 0){
+					//check index of array don't go out of Bounds
+					while (count < 5 && count < result.length){
 						FacebookDesktop.api(result[count].id, groupDisplayFunction);
 						count++;
 					}
+				}
 			}
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
-
-					while (count < 5){
+				if (result.length > 0){
+					//check index of array don't go out of Bounds
+					while (count < 5 && count < result.length){
 						FacebookDesktop.api(result[count].id, eventDisplayFunction);
 						count++;
 					}
+				}
 			}
 			protected function pageSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
-				
-
-					while (count < 5){
+				if (result.length > 0){
+					//check index of array don't go out of Bounds
+					while (count < 5 && count < result.length){
 						FacebookDesktop.api(result[count].id, pageDisplayFunction);
 						count++;
 					}
+				}
 			}
 			
 			protected function formatDate(date:String):String
