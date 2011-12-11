@@ -95,15 +95,19 @@
 					var stime:String = start.split("T",2)[1];
 					
 					
-					toolTipInfo += result.start_time+ "\n";	
+					toolTipInfo += "Start: " + formatDate(sdate) + " " + formatTime(stime) + "\n";	
 				}
 				if (result.hasOwnProperty("end_time"))
 				{
-					toolTipInfo += result.end_time + "\n"
+					var end:String = result.end_time;
+					var edate:String = end.split("T",2)[0];
+					var etime:String = end.split("T",2)[1];
+					
+					toolTipInfo += "End: " + formatDate(edate) + " " + formatTime(etime) + "\n"
 				}
 				if (result.hasOwnProperty("location"))
 				{
-					toolTipInfo += result.location;
+					toolTipInfo += "Location: " + result.location;
 				}
 				
 				if (toolTipInfo == "")
@@ -280,7 +284,53 @@
 					}
 			}
 			
+			protected function formatDate(date:String):String
+			{
+				
+				var arr:Array = date.split('-', 3);
+				
+				var date:String = arr[1] + "/" + arr[2] + "/" + arr[0];
+				
+				return date;
+			}
+			
+			protected function formatTime(time:String):String
+			{
+				var arr:Array = time.split(':', 3);
+				var hour:int = parseInt(arr[0]);
+				var min:int = parseInt(arr[1]);
+				var flag:String = "AM";
+				
+				
+				if (hour == 0)
+				{
+					hour = 12;
+				}
+				else if (hour >= 12)
+				{
+					flag = "PM";
+					hour -= 12;
+				}
+				
+				if (min < 10)
+				{
+					return hour + ":" + "0" + min + " " + flag;
+				}
+				
+				return hour + ":" + min + " " + flag;
+			}
+			
+			protected function searchBtn_enterHandler(event:FlexEvent):void
+			{
+				performSearch();
+			}
+			
 			protected function searchBtn_clickHandler(event:MouseEvent):void
+			{
+				performSearch();
+			}
+			
+			protected function performSearch():void
 			{
 				var tittle:Label = new Label;
 				
@@ -337,8 +387,6 @@
 						break;
 					
 				}
-				
-				
 			}
 			
 			
@@ -382,7 +430,7 @@
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
-			<s:TextInput id="searchBox"/>
+			<s:TextInput id="searchBox" enter="searchBtn_enterHandler(event)"/>
 			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"/>
 		</s:FormItem>
 		<s:RadioButton id="all" label="All" groupName="radiogroup1"
