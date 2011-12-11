@@ -28,9 +28,9 @@ package
 		public function InformationDisplay(name:String, url:String,  picture:String, toolTipString:String)
 		{
 			this.setStyle("backgroundColor", "0x5D81F6");
-			this.setStyle("horizontalAlign", "center");
-			this.setStyle("textAlign", "center");
-			var vLayout:VerticalLayout = new VerticalLayout;
+			
+			var vLayout:VerticalLayout = new VerticalLayout
+			vLayout.horizontalAlign ="center";
 			this.layout =vLayout;
 			
 			resultPicture = new Image;
@@ -38,15 +38,15 @@ package
 			resultURL = url;
 			
 			resultPicture.source = picture;
-			resultPicture.setStyle("horizontalCenter", "0");
+			
 			
 			nameLabel = new Label;
-			nameLabel.width = 100;
+			nameLabel.width = 80;
 			nameLabel.setStyle("textAlign", "center");
 			nameLabel.text = resultName;
-			//horizontalGroup
+			
 			this.addElement(resultPicture);
-			//horizontalGroup
+			
 			this.addElement(nameLabel);
 			this.addEventListener(MouseEvent.CLICK, InformationClick);
 			
