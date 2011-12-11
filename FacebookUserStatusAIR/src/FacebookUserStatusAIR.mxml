@@ -46,12 +46,15 @@
 					var resultInfo:InformationDisplay;
 					var toolTipInfo:String = new String();
 					
-					if(!(result.location == undefined)){
+					if(!(result.location == undefined))
+					{
 						if(result.location.hasOwnProperty("name"))
-							toolTipInfo = result.location.name;
+						{
+							toolTipInfo = result.name + "\n" + result.location.name;
+						}
 					}
 					else{
-						toolTipInfo = "no result";
+						toolTipInfo = result.name;
 					}
 					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
 					peopleResults.addElement(resultInfo);
@@ -62,10 +65,20 @@
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("description"))
-					toolTipInfo = result.description;
-				
-				else{
-					toolTipInfo = "no result";
+				{
+					var des:String = result.description;
+					if (des.length > 150)
+					{
+						toolTipInfo = des.slice(0, 150) + "...";
+					}
+					else
+					{
+						toolTipInfo = des;
+					}
+				}
+				else
+				{
+					toolTipInfo = "(no description)";
 				}
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo);
 				groupResults.addElement(resultInfo);
@@ -75,11 +88,29 @@
 				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
-				if(result.hasOwnProperty("location"))
-					toolTipInfo = result.location;
-				else{
+				if (result.hasOwnProperty("start_time"))
+				{
+					var start:String = result.start_time;
+					var sdate:String = start.split("T",2)[0];
+					var stime:String = start.split("T",2)[1];
+					
+					
+					toolTipInfo += result.start_time+ "\n";	
+				}
+				if (result.hasOwnProperty("end_time"))
+				{
+					toolTipInfo += result.end_time + "\n"
+				}
+				if (result.hasOwnProperty("location"))
+				{
+					toolTipInfo += result.location;
+				}
+				
+				if (toolTipInfo == "")
+				{
 					toolTipInfo = "no result";
 				}
+				
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
 				eventResults.addElement(resultInfo);
 				
@@ -103,10 +134,27 @@
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("category"))
-					toolTipInfo = result.category;
-				else{
-					toolTipInfo = "no result";
+				{
+					toolTipInfo += result.category + "\n";
 				}
+				if(result.hasOwnProperty("bio"))
+				{
+					var bio:String = result.bio;
+					if (bio.length > 150)
+					{
+						toolTipInfo += "Bio: " + bio.slice(0, 150) + "...";
+					}
+					else
+					{
+						toolTipInfo += "Bio: " + bio;
+					}
+				}
+				
+				if (toolTipInfo == "")
+				{
+					toolTipInfo = "(no description)";
+				}
+				
 				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"small"), toolTipInfo) ;
 				pageResults.addElement(resultInfo);
 				
@@ -210,7 +258,6 @@
 						count++;
 					}
 			}
-
 			
 			protected function searchBtn_clickHandler(event:MouseEvent):void
 			{
