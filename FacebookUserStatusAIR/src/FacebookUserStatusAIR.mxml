@@ -135,23 +135,26 @@
 				
 			}
 			
-//			protected function positioningDisplayFunction():void{
-//				var myList:ArrayList = calculatePositions();
-//				var a:int = 0;
-//				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-//				//while (a<myList.length){
-//				while(a<1){
-//					myPoint = myList.getItemAt(a) as Point;
-//					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
-//					a++;
-//					
-//				}
-//				
-//				//displayGroup.addElement(new InformationDisplay().x
-//				
-//				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-//				//displayGroup.addElement(new RectangleDrawer2());
-//			}
+			/*
+				Not called
+			*/
+			protected function positioningDisplayFunction():void{
+				var myList:ArrayList = calculatePositions();
+				var a:int = 0;
+				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+				//while (a<myList.length){
+				while(a<1){
+					myPoint = myList.getItemAt(a) as Point;
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
+					a++;
+					
+				}
+				
+				//displayGroup.addElement(new InformationDisplay().x
+				
+				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+				//displayGroup.addElement(new RectangleDrawer2());
+			}
 			
 			protected function pageDisplayFunction(result:Object, fail:Object):void{
 				var toolTipInfo:String = new String();
