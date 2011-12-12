@@ -767,11 +767,45 @@
 				}
 			}
 			
-			protected function detailedSearch_clickHandler(event:MouseEvent):void
+			protected function detailedUser_clickHandler(event:MouseEvent):void
 			{
-				
+				this.currentState = "PeopleSearch";
+				backImage.visible = false;
+				forwardImage.visible = true;
+				displayGroup.removeAllElements();
+
+				FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user', limit:75});
 			}
 			
+			protected function detailedGroup_clickHandler(event:MouseEvent):void
+			{
+				this.currentState = "GroupsSearch";
+				backImage.visible = false;
+				forwardImage.visible = true;
+				displayGroup.removeAllElements();
+
+				FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group', limit:75});
+			}
+			
+			protected function detailedEvent_clickHandler(event:MouseEvent):void
+			{
+				this.currentState = "EventsSearch";
+				backImage.visible = false;
+				forwardImage.visible = true;
+				displayGroup.removeAllElements();
+				
+				FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event', limit:75});
+			}
+			
+			protected function detailedPage_clickHandler(event:MouseEvent):void
+			{
+				this.currentState = "PagesSearch";
+				backImage.visible = false;
+				forwardImage.visible = true;
+				displayGroup.removeAllElements();
+
+				FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page', limit:75});
+			}
 		]]>
 	</fx:Script>
 	<s:states>
@@ -918,6 +952,22 @@
 	<s:Image id="forwardImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="193"
 			 y="657" click="forwardImage_clickHandler(event)"
 			 source="assets/in.png"/>
+	<s:Image id="userSearchImage" includeIn="AllSearch" 
+			 x="900" y="100" 
+			 click="detailedUser_clickHandler(event)" 
+			 source="assets/moreusers.png"/>
+	<s:Image id="groupSearchImage" includeIn="AllSearch" 
+			 x="350" y="100" 
+			 click="detailedGroup_clickHandler(event)" 
+			 source="assets/moregroups.png"/>
+	<s:Image id="eventSearchImage" includeIn="AllSearch" 
+			 x="350" y="650" 
+			 click="detailedEvent_clickHandler(event)" 
+			 source="assets/moreevents.png"/>
+	<s:Image id="pageSearchImage" includeIn="AllSearch" 
+			 x="900" y="650" 
+			 click="detailedPage_clickHandler(event)" 
+			 source="assets/morepages.png"/>
 
 	
 	
