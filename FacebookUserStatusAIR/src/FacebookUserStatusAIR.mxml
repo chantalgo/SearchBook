@@ -21,6 +21,9 @@
 			
 			private const positions:ArrayList = calculatePositions();;
 			private var counter:int;
+			private var page:int;
+			private var peopleResult:Object;
+			private var peopleFail:Object;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -260,15 +263,40 @@
 			}
 			
 			protected function userSearchResults(result:Object, fail:Object):void {
-				var count:int = 0;
-				//count2 = 0;
-				counter = 0;
-			
-				if (result.length > 0){
+				var count:int;
+				if (page == 1){
+					peopleResult = result;
+					peopleFail = fail;
+					count = 0;
+					counter = 0;
+					if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 24 && count < result.length){
-						FacebookDesktop.api(result[count].id, userDisplayFunction);
-						count++;
+						while (count < 24 && count < result.length){
+							FacebookDesktop.api(result[count].id, userDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 2){
+					count = 24;
+					counter = 0;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						while (count < 48 && count < result.length){
+							FacebookDesktop.api(result[count].id, userDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 3){
+					count = 48;
+					counter = 0;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						while (count < 72 && count < result.length){
+							FacebookDesktop.api(result[count].id, userDisplayFunction);
+							count++;
+						}
 					}
 				}
 			}
@@ -361,7 +389,7 @@
 			protected function performSearch():void
 			{
 				var tittle:Label = new Label;
-				
+				page = 1;
 				switch (radiogroup1.selection) {
 					case all :
 						this.currentState = "AllSearch";
@@ -385,13 +413,17 @@
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
+						backImage.visible = false;
+						forwardImage.visible = true;
 						displayGroup.removeAllElements();
 						tittle.text = "People";
 						peopleResults.addElement(tittle);
-						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
+						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user', limit:75});
 						break;
 					case groups :
 						this.currentState = "GroupsSearch";
+						backImage.visible = false;
+						forwardImage.visible = true;
 						displayGroup.removeAllElements();
 						tittle.text = "Groups";
 						groupResults.addElement(tittle);
@@ -399,6 +431,8 @@
 						break;
 					case events :
 						this.currentState = "EventsSearch";
+						backImage.visible = false;
+						forwardImage.visible = true;
 						displayGroup.removeAllElements();
 						tittle.text = "Events";
 						eventResults.addElement(tittle);
@@ -406,6 +440,8 @@
 						break;
 					case pages :
 						this.currentState = "PagesSearch";
+						backImage.visible = false;
+						forwardImage.visible = true;
 						displayGroup.removeAllElements();
 						tittle.text = "Pages";
 						pageResults.addElement(tittle);
@@ -415,6 +451,36 @@
 				}
 			}
 			
+			
+			protected function forwardImage_clickHandler(event:MouseEvent):void
+			{
+				backImage.visible = true;
+				displayGroup.removeAllElements();
+				if (page < 3)
+					page++;
+				if (page == 3)
+					forwardImage.visible = false;
+				switch(this.currentState){
+					case "PeopleSearch":
+						userSearchResults(peopleResult, peopleFail);
+					break;
+				}
+			}
+			
+			protected function backImage_clickHandler(event:MouseEvent):void
+			{
+				displayGroup.removeAllElements();
+				forwardImage.visible = true;
+				if (page > 1)
+					page--;
+				if (page == 1)
+					backImage.visible = false;
+				switch(this.currentState){
+					case "PeopleSearch":
+						userSearchResults(peopleResult, peopleFail);
+						break;
+				}
+			}
 			
 		]]>
 	</fx:Script>
@@ -556,6 +622,10 @@
 		<s:Label id="nameLbl"
 				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
 				 right="159" top="20" color="#FFFFFF" fontFamily="Verdana" fontWeight="bold"/>
+	<s:Image id="backImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" visible="true" x="134" y="613"
+			 click="backImage_clickHandler(event)" source="assets/BackButton.gif"/>
+	<s:Image id="forwardImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="193" y="657"
+			 click="forwardImage_clickHandler(event)" source="assets/button_forward.jpg"/>
 
 	
 	
