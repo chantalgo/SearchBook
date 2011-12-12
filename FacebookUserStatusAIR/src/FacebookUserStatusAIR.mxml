@@ -25,6 +25,11 @@
 			private var peopleResult:Object;
 			private var peopleFail:Object;
 			
+			private var userArr:Array;
+			private var groupArr:Array;
+			private var eventArr:Array;
+			private var pageArr:Array;
+			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
 				FacebookDesktop.init("279597868748971", loginHandler );
@@ -68,24 +73,74 @@
 				counter++;
 			}
 			
-			protected function userDisplayFunction(result:Object, fail:Object):void{
-					
-					var toolTipInfo:String = new String();
-					
-					if(!(result.location == undefined))
-					{
-						if(result.location.hasOwnProperty("name"))
-						{
-							toolTipInfo = result.name + "\n" + result.location.name;
-						}
-					}
-					else{
-						toolTipInfo = result.name;
-					}
-					
-					displayResults(result, toolTipInfo);
+			protected function userDisplayQuad(result:Object, fail:Object):void
+			{
+				
 			}
-			protected function groupDisplayFunction(result:Object, fail:Object):void{
+			
+			protected function userDisplayFunction(result:Object, fail:Object):void
+			{
+				displayResults(result, createUserToolTip(result));
+			}
+			
+			protected function groupDisplayFunction(result:Object, fail:Object):void
+			{
+				displayResults(result, createGroupToolTip(result));
+			}
+			
+			
+			protected function eventDisplayFunction(result:Object, fail:Object):void
+			{
+				displayResults(result, createEventToolTip(result));
+			}
+			
+			/*
+				Not called. Remove at later point.
+			*/
+			protected function positioningDisplayFunction():void{
+				var myList:ArrayList = calculatePositions();
+				var a:int = 0;
+				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+				//while (a<myList.length){
+				while(a<1){
+					myPoint = myList.getItemAt(a) as Point;
+					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
+					a++;
+					
+				}
+				
+				//displayGroup.addElement(new InformationDisplay().x
+				
+				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+				//displayGroup.addElement(new RectangleDrawer2());
+			}
+			
+			protected function pageDisplayFunction(result:Object, fail:Object):void{
+				
+				displayResults(result, createPageToolTip(result));
+				
+			}
+			
+			protected function createUserToolTip(result:Object):String
+			{
+				var toolTipInfo:String = new String();
+				
+				if(!(result.location == undefined))
+				{
+					if(result.location.hasOwnProperty("name"))
+					{
+						toolTipInfo = result.name + "\n" + result.location.name;
+					}
+				}
+				else{
+					toolTipInfo = result.name;
+				}
+				
+				return toolTipInfo;
+			}
+			
+			protected function createGroupToolTip(result:Object):String
+			{
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("description"))
@@ -104,10 +159,12 @@
 				{
 					toolTipInfo = "(no description)";
 				}
-				displayResults(result, toolTipInfo);
 				
+				return toolTipInfo;
 			}
-			protected function eventDisplayFunction(result:Object, fail:Object):void{
+			
+			protected function createEventToolTip(result:Object):String
+			{
 				var toolTipInfo:String = new String();
 				
 				if (result.hasOwnProperty("start_time"))
@@ -137,32 +194,11 @@
 					toolTipInfo = "no result";
 				}
 				
-				displayResults(result, toolTipInfo);
-				
+				return toolTipInfo;
 			}
 			
-			/*
-				Not called. Remove at later point.
-			*/
-			protected function positioningDisplayFunction():void{
-				var myList:ArrayList = calculatePositions();
-				var a:int = 0;
-				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-				//while (a<myList.length){
-				while(a<1){
-					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
-					a++;
-					
-				}
-				
-				//displayGroup.addElement(new InformationDisplay().x
-				
-				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-				//displayGroup.addElement(new RectangleDrawer2());
-			}
-			
-			protected function pageDisplayFunction(result:Object, fail:Object):void{
+			protected function createPageToolTip(result:Object):String
+			{
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("category"))
@@ -187,8 +223,7 @@
 					toolTipInfo = "(no description)";
 				}
 				
-				displayResults(result, toolTipInfo);
-				
+				return toolTipInfo;
 			}
 			
 			protected function calculatePositions():ArrayList{
@@ -339,6 +374,40 @@
 				}
 			}
 			
+			protected function userSearchQuad(result:Object, fail:Object):void
+			{
+				for (var i:int=0; i<6 && i<result.length; i++)
+				{
+					FacebookDesktop.api(result[i].id, userDisplayQuad);
+				}
+			}
+			protected function pageSearchQuad(result:Object, fail:Object):void
+			{
+				for (var i:int=0; i<6 && i<result.length; i++)
+				{
+					pageArr[i] = result[i];
+				}
+			}
+			protected function groupSearchQuad(result:Object, fail:Object):void
+			{
+				for (var i:int=0; i<6 && i<result.length; i++)
+				{
+					groupArr[i] = result[i];
+				}
+			}
+			protected function eventSearchQuad(result:Object, fail:Object):void
+			{
+				for (var i:int=0; i<6 && i<result.length; i++)
+				{
+					eventArr[i] = result[i];
+				}
+			}
+			
+			protected function allSearchResults(result:Object, fail:Object):void
+			{
+				
+			}
+			
 			protected function formatDate(date:String):String
 			{
 				var arr:Array = date.split('-', 3);
@@ -406,10 +475,10 @@
 						var tittle4:Label = new Label;
 						tittle4.text = "Pages";
 						pageResults.addElement(tittle4);
-						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
-						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
-						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
-						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
+						FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
+						FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
+						FacebookDesktop.api("search", eventSearchQuad, {q:searchBox.text, type:'event'});
+						FacebookDesktop.api("search", pageSearchQuad, {q:searchBox.text, type:'page'});
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
