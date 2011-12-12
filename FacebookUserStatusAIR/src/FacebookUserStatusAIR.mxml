@@ -29,8 +29,8 @@
 			protected function loginHandler(success:Object,fail:Object):void { 
 				if(success){ 
 					currentState="loggedIn";
-					//nameLbl.text=success.user.name;
-					//userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
+					nameLbl.text=success.user.name;
+					userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
 					//birthdayLbl.text=success.user.birthday;
 					//FacebookDesktop.api("/me/statuses",getStatusHandler);
 					
@@ -538,13 +538,7 @@
 		
 	</s:Group>
 	<s:Image includeIn="loggedOut" x="210" y="282" source="assets/intro.png"/>
-	<s:Image id="searchbooktitleBar" x="0" y="0" width="100%" source="assets/searchbook_title3.png"
-			 x.AllSearch="0" y.AllSearch="0"
-			 x.EventsSearch="0" y.EventsSearch="0"
-			 x.GroupsSearch="0" y.GroupsSearch="0"
-			 left.loggedIn="0" top.loggedIn="0"
-			 x.PagesSearch="0" y.PagesSearch="0"
-			 x.PeopleSearch="0" y.PeopleSearch="0"/>	
+	<s:Image id="searchbooktitleBar" x="0" y="0" width="100%" source="assets/searchbook_title3.png"/>	
 	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="10" top="13" label="Log In"
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
 	<s:Button id="loginoutBtn1" includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,PeopleSearch,loggedIn" right="10" top="13" label="Log Out"
@@ -553,12 +547,12 @@
 	<mx:LinkButton id="helpLink" label="help"
 				   click="navigateToURL(new URLRequest('http://www.cs.columbia.edu/~cg2486/ui/searchbook/user_manual.html'),'User Manual')"
 				   color="#FFFFFF" enabled="true" fontFamily="Verdana" textDecoration="underline"
-				   right.AllSearch="109" top.AllSearch="13"
-				   right.EventsSearch="109" top.EventsSearch="13"
-				   right.GroupsSearch="109" top.GroupsSearch="13"
-				   right.loggedIn="109" top.loggedIn="13"
-				   right.loggedOut="109" top.loggedOut="13"
-				   right.PagesSearch="109" top.PagesSearch="13"
-				   right.PeopleSearch="109" top.PeopleSearch="13"/>
+				   right="109" top="13"/>
+	<s:VGroup includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch"
+			  x="574" y="342" width="61" height="68"
+			  x.PeopleSearch="606" width.PeopleSearch="29" textAlign.PeopleSearch="center">
+		<s:Image id="userImg"/>
+		<s:Label id="nameLbl"/>
+	</s:VGroup>
 	
 </s:WindowedApplication>

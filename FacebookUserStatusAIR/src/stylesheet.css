@@ -35,3 +35,13 @@ mx|ToolTip
 	fontFamily: Verdana;
 	fontSize: 10;
 }
+
+#nameLbl
+{
+	color: #3b5998;
+}
+
+#userImg
+{
+	alignment: center;
+}
