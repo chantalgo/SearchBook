@@ -347,12 +347,14 @@
 			
 			protected function searchBtn_enterHandler(event:FlexEvent):void
 			{
-				performSearch();
+				if (searchBox.text.length > 0)
+					performSearch();
 			}
 			
 			protected function searchBtn_clickHandler(event:MouseEvent):void
 			{
-				performSearch();
+				if (searchBox.text.length > 0)
+					performSearch();
 			}
 			
 			protected function performSearch():void
@@ -492,7 +494,9 @@
 					   selected.PagesSearch="true"
 					   selected.PeopleSearch="false"/>
 	</s:Form>
-	<s:Group id="displayGroup"  x="284" y="52" width="730" height="690">
+	<s:Group id="displayGroup"
+			 includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="284" y="52"
+			 width="730" height="690">
 		<!-- x="150" -->
 		<!--<ns1:CircleDrawer x="173" y="173" width="1" height="1"/>-->
 		<!--<ns1:RectangleDrawer x="0" y="0" width="1" height="1" />-->
@@ -521,17 +525,17 @@
 				  height.PagesSearch="600">
 			
 		</s:VGroup>
-		<s:Image includeIn="loggedOut" x="-77" y="234" source="assets/intro.png"/>
+		
 	</s:Group>
-	<s:Image id="searchbooktitleBar" source="assets/searchbook_title3.png"
+	<s:Image includeIn="loggedOut" x="150" y="234" source="assets/intro.png"/>
+	<s:Image id="searchbooktitleBar" includeIn="loggedOut" x="0" y="0" width="100%"
+			 source="assets/searchbook_title3.png"
 			 x.AllSearch="0" y.AllSearch="0"
 			 x.EventsSearch="0" y.EventsSearch="0"
 			 x.GroupsSearch="0" y.GroupsSearch="0"
 			 left.loggedIn="0" top.loggedIn="0"
-			 x.loggedOut="0" y.loggedOut="0"
 			 x.PagesSearch="0" y.PagesSearch="0"
-			 x.PeopleSearch="0" y.PeopleSearch="0"
-			 width="100%"/>	
+			 x.PeopleSearch="0" y.PeopleSearch="0"/>	
 	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="10" top="13" label="Log In"
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
 	<s:Button id="loginoutBtn1" includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,PeopleSearch,loggedIn" right="10" top="13" label="Log Out"
