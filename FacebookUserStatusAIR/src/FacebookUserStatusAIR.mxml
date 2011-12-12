@@ -536,9 +536,8 @@
 		</s:VGroup>
 		
 	</s:Group>
-	<s:Image includeIn="loggedOut" x="150" y="234" source="assets/intro.png"/>
-	<s:Image id="searchbooktitleBar" includeIn="loggedOut" x="0" y="0" width="100%"
-			 source="assets/searchbook_title3.png"
+	<s:Image includeIn="loggedOut" x="210" y="282" source="assets/intro.png"/>
+	<s:Image id="searchbooktitleBar" x="0" y="0" width="100%" source="assets/searchbook_title3.png"
 			 x.AllSearch="0" y.AllSearch="0"
 			 x.EventsSearch="0" y.EventsSearch="0"
 			 x.GroupsSearch="0" y.GroupsSearch="0"
