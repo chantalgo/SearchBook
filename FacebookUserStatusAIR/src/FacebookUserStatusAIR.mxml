@@ -738,10 +738,12 @@
 		<s:Label id="nameLbl"
 				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
 				 right="159" top="20" color="#FFFFFF" fontFamily="Verdana" fontWeight="bold"/>
-	<s:Image id="backImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" visible="true" x="134" y="613"
-			 click="backImage_clickHandler(event)" source="assets/BackButton.gif"/>
-	<s:Image id="forwardImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="193" y="657"
-			 click="forwardImage_clickHandler(event)" source="assets/button_forward.jpg"/>
+	<s:Image id="backImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch"
+			 visible="true" click="backImage_clickHandler(event)"
+			 x="179" y="640" source="assets/out.png"/>
+	<s:Image id="forwardImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="193"
+			 y="657" click="forwardImage_clickHandler(event)"
+			 source="assets/in.png"/>
 
 	
 	
