@@ -7,7 +7,8 @@
 					   width="1024" height="768"
 					   skinClass="skins.ScrollingSkin"
 					   maxWidth="1024"
-					   maxHeight="768">
+					   maxHeight="768"
+					   title="Searchbook">
 	<fx:Style source="stylesheet.css"/>
 	<fx:Script>
 		<![CDATA[
