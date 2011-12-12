@@ -8,6 +8,7 @@
 					   skinClass="skins.ScrollingSkin"
 					   maxWidth="1024"
 					   maxHeight="768">
+	<fx:Style source="stylesheet.css"/>
 	<fx:Script>
 		<![CDATA[
 			import com.facebook.graph.FacebookDesktop;
@@ -17,8 +18,8 @@
 			
 			import spark.components.Label;
 			
-			var positions:ArrayList;
-			var counter:int;
+			private const positions:ArrayList = calculatePositions();;
+			private var counter:int;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -28,8 +29,8 @@
 			protected function loginHandler(success:Object,fail:Object):void { 
 				if(success){ 
 					currentState="loggedIn";
-					//nameLbl.text=success.user.name;
-					//userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
+					nameLbl.text=success.user.name;
+					userImg.source=FacebookDesktop.getImageUrl(success.uid,"square");
 					//birthdayLbl.text=success.user.birthday;
 					//FacebookDesktop.api("/me/statuses",getStatusHandler);
 					
@@ -44,14 +45,27 @@
 			}
 			protected function logout():void { 
 				FacebookDesktop.logout(); 
+				this.searchBox.text="";
 				currentState="loggedOut";
 			}
 			/*protected function getStatusHandler(result:Object, fail:Object):void {
 				statusLbl.text=result[0].message;
 			}*/
-
+			
+			protected function displayResults(result:Object, toolTipInfo:String):void
+			{
+				var resultInfo:InformationDisplay;
+				
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
+				resultInfo.x = (positions.getItemAt(counter) as Point).x;
+				resultInfo.y = (positions.getItemAt(counter) as Point).y;
+				
+				displayGroup.addElement(resultInfo);
+				counter++;
+			}
+			
 			protected function userDisplayFunction(result:Object, fail:Object):void{
-					var resultInfo:InformationDisplay;
+					
 					var toolTipInfo:String = new String();
 					
 					if(!(result.location == undefined))
@@ -64,18 +78,10 @@
 					else{
 						toolTipInfo = result.name;
 					}
-					resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-					resultInfo.x = (positions.getItemAt(counter) as Point).x;
-					resultInfo.y = (positions.getItemAt(counter) as Point).y;
-
-					//peopleResults.addElement(resultInfo);
 					
-					displayGroup.addElement(resultInfo);
-					counter++;
-				
+					displayResults(result, toolTipInfo);
 			}
 			protected function groupDisplayFunction(result:Object, fail:Object):void{
-				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("description"))
@@ -94,12 +100,10 @@
 				{
 					toolTipInfo = "(no description)";
 				}
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo);
-				groupResults.addElement(resultInfo);
+				displayResults(result, toolTipInfo);
 				
 			}
 			protected function eventDisplayFunction(result:Object, fail:Object):void{
-				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
 				if (result.hasOwnProperty("start_time"))
@@ -129,11 +133,13 @@
 					toolTipInfo = "no result";
 				}
 				
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-				eventResults.addElement(resultInfo);
+				displayResults(result, toolTipInfo);
 				
 			}
 			
+			/*
+				Not called
+			*/
 			protected function positioningDisplayFunction():void{
 				var myList:ArrayList = calculatePositions();
 				var a:int = 0;
@@ -153,7 +159,6 @@
 			}
 			
 			protected function pageDisplayFunction(result:Object, fail:Object):void{
-				var resultInfo:InformationDisplay;
 				var toolTipInfo:String = new String();
 				
 				if(result.hasOwnProperty("category"))
@@ -178,10 +183,8 @@
 					toolTipInfo = "(no description)";
 				}
 				
-				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), toolTipInfo) ;
-				pageResults.addElement(resultInfo);
+				displayResults(result, toolTipInfo);
 				
-				positioningDisplayFunction();
 			}
 			
 			protected function calculatePositions():ArrayList{
@@ -190,11 +193,17 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-				var centerX:int = 240;
-				var centerY:int = 320;
-				var height:int = 650;
+
+//				var centerX:int = 240;
+//				var centerY:int = 320;
+//				var height:int = 650;
+				
+				var centerX:int = 310;
+				var centerY:int = 312;
+				var height:int = 610;
+				
 				var halfHeight:int = height/2;
-				var width:int = 875;
+				var width:int = 675;
 				var halfWidth:int = width/2;
 				
 				var numLevels:int = 3;
@@ -259,8 +268,6 @@
 				var count:int = 0;
 				//count2 = 0;
 				counter = 0;
-				
-				positions = calculatePositions();
 			
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
@@ -273,9 +280,11 @@
 			protected function groupSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
+				counter = 0;
+				
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5 && count < result.length){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, groupDisplayFunction);
 						count++;
 					}
@@ -284,9 +293,11 @@
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				
 				var count:int = 0;
+				counter = 0;
+				
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5 && count < result.length){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, eventDisplayFunction);
 						count++;
 					}
@@ -294,9 +305,11 @@
 			}
 			protected function pageSearchResults(result:Object, fail:Object):void {
 				var count:int = 0;
+				counter = 0;
+				
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
-					while (count < 5 && count < result.length){
+					while (count < 24 && count < result.length){
 						FacebookDesktop.api(result[count].id, pageDisplayFunction);
 						count++;
 					}
@@ -305,7 +318,6 @@
 			
 			protected function formatDate(date:String):String
 			{
-				
 				var arr:Array = date.split('-', 3);
 				
 				var date:String = arr[1] + "/" + arr[2] + "/" + arr[0];
@@ -341,12 +353,14 @@
 			
 			protected function searchBtn_enterHandler(event:FlexEvent):void
 			{
-				performSearch();
+				if (searchBox.text.length > 0)
+					performSearch();
 			}
 			
 			protected function searchBtn_clickHandler(event:MouseEvent):void
 			{
-				performSearch();
+				if (searchBox.text.length > 0)
+					performSearch();
 			}
 			
 			protected function performSearch():void
@@ -356,10 +370,8 @@
 				switch (radiogroup1.selection) {
 					case all :
 						this.currentState = "AllSearch";
-						peopleResults.removeAllElements();
-						groupResults.removeAllElements();
-						eventResults.removeAllElements();
-						pageResults.removeAllElements();
+						displayGroup.removeAllElements();
+						
 						tittle.text = "People";
 						peopleResults.addElement(tittle);
 						var tittle2:Label = new Label;
@@ -378,28 +390,28 @@
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
-						peopleResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "People";
 						peopleResults.addElement(tittle);
 						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user'});
 						break;
 					case groups :
 						this.currentState = "GroupsSearch";
-						groupResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "Groups";
 						groupResults.addElement(tittle);
 						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
 						break;
 					case events :
 						this.currentState = "EventsSearch";
-						eventResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "Events";
 						eventResults.addElement(tittle);
 						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
 						break;
 					case pages :
 						this.currentState = "PagesSearch";
-						pageResults.removeAllElements();
+						displayGroup.removeAllElements();
 						tittle.text = "Pages";
 						pageResults.addElement(tittle);
 						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
@@ -442,15 +454,25 @@
 	<s:layout.PagesSearch>
 		<s:BasicLayout/>
 	</s:layout.PagesSearch>
-	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
-			x="10" y="52" width="266" height="283">
-		<s:FormItem width="177"
-					width.loggedIn="345">
+	<s:Image id="circlebg" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" left="0"
+			 top="30" source="assets/circle.png"/>
+	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch" x="10"
+			y="52" width="250" height="191"
+			>
+		<s:FormItem width="234"
+					backgroundColor="#DFE3EE"
+					contentBackgroundColor="#DFE3EE">
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
 			<s:TextInput id="searchBox" enter="searchBtn_enterHandler(event)"/>
-			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"/>
+			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"
+					  skinClass.AllSearch="facebookbutton"
+					  skinClass.EventsSearch="facebookbutton"
+					  skinClass.GroupsSearch="facebookbutton"
+					  cornerRadius.loggedIn="0"
+					  skinClass.PagesSearch="facebookbutton"
+					  skinClass.PeopleSearch="facebookbutton"/>
 		</s:FormItem>
 		<s:RadioButton id="all" label="All" groupName="radiogroup1"
 					   selected.AllSearch="true"
@@ -488,7 +510,9 @@
 					   selected.PagesSearch="true"
 					   selected.PeopleSearch="false"/>
 	</s:Form>
-	<s:Group id="displayGroup"  x="284" y="52" width="730" height="690">
+	<s:Group id="displayGroup"
+			 includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="284" y="52"
+			 width="730" height="690">
 		<!-- x="150" -->
 		<!--<ns1:CircleDrawer x="173" y="173" width="1" height="1"/>-->
 		<!--<ns1:RectangleDrawer x="0" y="0" width="1" height="1" />-->
@@ -517,40 +541,26 @@
 				  height.PagesSearch="600">
 			
 		</s:VGroup>
+		
 	</s:Group>
-	<s:Image id="searchbooktitleBar" source="assets/searchbook_title3.png"
-			 x.AllSearch="1" y.AllSearch="1"
-			 x.EventsSearch="-1" y.EventsSearch="1"
-			 x.GroupsSearch="1" y.GroupsSearch="1"
-			 left.loggedIn="1" top.loggedIn="1"
-			 x.loggedOut="1" y.loggedOut="-1"
-			 x.PagesSearch="0" y.PagesSearch="0"
-			 x.PeopleSearch="0" y.PeopleSearch="0"
-			 width="100%"/>	
-	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="19" top="10" label="Log In"
+	<s:Image includeIn="loggedOut" x="210" y="282" source="assets/intro.png"/>
+	<s:Image id="searchbooktitleBar" x="0" y="0" width="100%" source="assets/searchbook_title3.png"/>	
+	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="10" top="13" label="Log In"
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
-	<s:Button id="loginoutBtn1" includeIn="loggedIn" right="10" top="13" label="Log Out"
+	<s:Button id="loginoutBtn1" includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,PeopleSearch,loggedIn" right="10" top="13" label="Log Out"
 			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
 	<!--<s:Button id="testPositions" skinClass="skins.FBLoginButtonSkin"-->
-	<s:Button id="loginoutBtn2" includeIn="AllSearch" right="10" top="11" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn3" includeIn="PeopleSearch" right="10" top="13" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn4" includeIn="GroupsSearch" right="10" top="13" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn5" includeIn="EventsSearch" right="10" top="12" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn" includeIn="PagesSearch" right="10" top="14" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
 	<mx:LinkButton id="helpLink" label="help"
 				   click="navigateToURL(new URLRequest('http://www.cs.columbia.edu/~cg2486/ui/searchbook/user_manual.html'),'User Manual')"
 				   color="#FFFFFF" enabled="true" fontFamily="Verdana" textDecoration="underline"
-				   right.AllSearch="129" top.AllSearch="12"
-				   right.EventsSearch="107" top.EventsSearch="10"
-				   right.GroupsSearch="118" top.GroupsSearch="13"
-				   right.loggedIn="107" top.loggedIn="11"
-				   right.loggedOut="121" top.loggedOut="11"
-				   right.PagesSearch="108" top.PagesSearch="12"
-				   right.PeopleSearch="109" top.PeopleSearch="13"/>
+				   right="109" top="13"/>
+	
+		<s:Image id="userImg" includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch" x="609" y="379"/>
+		<s:Label id="nameLbl"
+				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
+				 x="27" y="279"
+				 />
+
+	
 	
 </s:WindowedApplication>

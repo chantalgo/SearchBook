@@ -20,14 +20,14 @@ package
 	
 	public class InformationDisplay extends SkinnableContainer
 	{
-		var resultPicture:Image;
-		var resultName:String;
-		var resultURL:String;
-		var nameLabel:Label;
+		private var resultPicture:Image;
+		private var resultName:String;
+		private var resultURL:String;
+		private var nameLabel:Label;
 		
 		public function InformationDisplay(name:String, url:String,  picture:String, toolTipString:String)
 		{
-			this.setStyle("backgroundColor", "0x5D81F6");
+			//this.setStyle("backgroundColor", "0x5D81F6");
 			
 			var vLayout:VerticalLayout = new VerticalLayout
 			vLayout.horizontalAlign ="center";
@@ -47,6 +47,7 @@ package
 			nameLabel.width = 80;
 			nameLabel.setStyle("textAlign", "center");
 			nameLabel.text = resultName;
+			nameLabel.setStyle("color","#3b5998");
 			
 			this.addElement(resultPicture);
 			
@@ -71,12 +72,12 @@ package
 			navigateToURL(new URLRequest(resultURL));
 		}
 		public function mouseOverFunction(event:MouseEvent):void{
-			this.setStyle("backgroundColor", "0x000000");
-			nameLabel.setStyle("color", "0xFFFFFF");
+			//this.setStyle("backgroundColor", "0x000000");
+			nameLabel.setStyle("color", "#3b5998");
 		}
 		public function mouseOutFunction(event:MouseEvent):void{
-			this.setStyle("backgroundColor", "0x5D81F6");
-			nameLabel.setStyle("color", "0x000000");
+			//this.setStyle("backgroundColor", "0x5D81F6");
+			nameLabel.setStyle("color", "#3b5998");
 		}
 		
 		
