@@ -553,8 +553,7 @@
 		<s:Image id="userImg" includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch" x="609" y="379"/>
 		<s:Label id="nameLbl"
 				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
-				 x="27" y="279"
-				 />
+				 right="159" top="20" color="#FFFFFF" fontFamily="Verdana" fontWeight="bold"/>
 
 	
 	
