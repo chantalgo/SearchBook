@@ -20,10 +20,29 @@
 			import spark.components.Label;
 			
 			private const positions:ArrayList = calculatePositions();;
+			private const userPositions:ArrayList = calculateUserPositions();
+			private const groupPositions:ArrayList = calculateGroupPositions();
+			private const eventPositions:ArrayList = calculateEventPositions();
+			private const pagePositions:ArrayList = calculatePagePositions();
+			
+			private const initAngle:int = 45;
+//			private const initAngle:int = 90;
+			
 			private var counter:int;
+			private var usercount:int;
+			private var groupcount:int;
+			private var eventcount:int;
+			private var pagecount:int;
+			
 			private var page:int;
 			private var peopleResult:Object;
 			private var peopleFail:Object;
+			private var eventResult:Object;
+			private var eventFail:Object;
+			private var groupResult:Object;
+			private var groupFail:Object;
+			private var pageResult:Object;
+			private var pageFail:Object;
 			
 			private var userArr:Array;
 			private var groupArr:Array;
@@ -73,54 +92,77 @@
 				counter++;
 			}
 			
-			protected function userDisplayQuad(result:Object, fail:Object):void
-			{
-				
-			}
-			
+			/**
+			 * Single Category Searches
+			 **/
 			protected function userDisplayFunction(result:Object, fail:Object):void
 			{
 				displayResults(result, createUserToolTip(result));
 			}
-			
 			protected function groupDisplayFunction(result:Object, fail:Object):void
 			{
 				displayResults(result, createGroupToolTip(result));
 			}
-			
-			
 			protected function eventDisplayFunction(result:Object, fail:Object):void
 			{
 				displayResults(result, createEventToolTip(result));
 			}
-			
-			/*
-				Not called. Remove at later point.
-			*/
-			protected function positioningDisplayFunction():void{
-				var myList:ArrayList = calculatePositions();
-				var a:int = 0;
-				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-				//while (a<myList.length){
-				while(a<1){
-					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
-					a++;
-					
-				}
-				
-				//displayGroup.addElement(new InformationDisplay().x
-				
-				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-				//displayGroup.addElement(new RectangleDrawer2());
-			}
-			
-			protected function pageDisplayFunction(result:Object, fail:Object):void{
-				
+			protected function pageDisplayFunction(result:Object, fail:Object):void
+			{
 				displayResults(result, createPageToolTip(result));
-				
 			}
 			
+			/**
+			 * All Search
+			 */
+			protected function userDisplayQuad(result:Object, fail:Object):void
+			{
+				var resultInfo:InformationDisplay;
+				
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), createUserToolTip(result)) ;
+				resultInfo.x = (userPositions.getItemAt(usercount) as Point).x;
+				resultInfo.y = (userPositions.getItemAt(usercount) as Point).y;
+				
+				displayGroup.addElement(resultInfo);
+				usercount++;
+			}
+			protected function groupDisplayQuad(result:Object, fail:Object):void
+			{
+				var resultInfo:InformationDisplay;
+				
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), createGroupToolTip(result)) ;
+				resultInfo.x = (groupPositions.getItemAt(groupcount) as Point).x;
+				resultInfo.y = (groupPositions.getItemAt(groupcount) as Point).y;
+				
+				displayGroup.addElement(resultInfo);
+				groupcount++;
+			}
+			protected function eventDisplayQuad(result:Object, fail:Object):void
+			{
+				var resultInfo:InformationDisplay;
+				
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), createEventToolTip(result)) ;
+				resultInfo.x = (eventPositions.getItemAt(eventcount) as Point).x;
+				resultInfo.y = (eventPositions.getItemAt(eventcount) as Point).y;
+				
+				displayGroup.addElement(resultInfo);
+				eventcount++;
+			}
+			protected function pageDisplayQuad(result:Object, fail:Object):void
+			{
+				var resultInfo:InformationDisplay;
+				
+				resultInfo = new InformationDisplay(result.name, "https://facebook.com/" + result.id, FacebookDesktop.getImageUrl(result.id,"square"), createPageToolTip(result)) ;
+				resultInfo.x = (pagePositions.getItemAt(pagecount) as Point).x;
+				resultInfo.y = (pagePositions.getItemAt(pagecount) as Point).y;
+				
+				displayGroup.addElement(resultInfo);
+				pagecount++;
+			}
+			
+			/**
+			 * Tooltip creation
+			 */
 			protected function createUserToolTip(result:Object):String
 			{
 				var toolTipInfo:String = new String();
@@ -138,7 +180,6 @@
 				
 				return toolTipInfo;
 			}
-			
 			protected function createGroupToolTip(result:Object):String
 			{
 				var toolTipInfo:String = new String();
@@ -162,7 +203,6 @@
 				
 				return toolTipInfo;
 			}
-			
 			protected function createEventToolTip(result:Object):String
 			{
 				var toolTipInfo:String = new String();
@@ -196,7 +236,6 @@
 				
 				return toolTipInfo;
 			}
-			
 			protected function createPageToolTip(result:Object):String
 			{
 				var toolTipInfo:String = new String();
@@ -232,9 +271,15 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
+
+//				var centerX:int = 240;
+//				var centerY:int = 320;
+//				var height:int = 650;
+				
 				var centerX:int = 310;
 				var centerY:int = 312;
 				var height:int = 610;
+				
 				var halfHeight:int = height/2;
 				var width:int = 675;
 				var halfWidth:int = width/2;
@@ -244,7 +289,7 @@
 				var j:int = 0;
 				var numPoints:int = 0;
 				
-				var angle:int = 90;
+				var angle:int = initAngle;
 				var angleIncrement:int = 0;
 				var currentLevel:int = 0;
 				
@@ -254,20 +299,20 @@
 				var distanceY:int = 0;
 				
 				while(i<numLevels){ //loop through all levels
-					angle = 90;
+//					angle = initAngle;
 					currentLevel = i+1;
 					//numPoints = currentLevel*4; //how many points to add per level
 					if (currentLevel==1){
 						numPoints = 4;
-						angle=90;
+						angle=initAngle;
 					}
 					else if (currentLevel==2){
 						numPoints = 8;
-						angle = 90;
+						angle = initAngle-22.5;
 					}
 					else if (currentLevel==3){
 						numPoints = 12;
-						angle = 90;	
+						angle = initAngle-30;	
 					}
 					else{
 						numPoints = 4;
@@ -297,6 +342,68 @@
 				return myArrayList;
 			}
 			
+			//top right corner?
+			protected function calculateUserPositions():ArrayList{
+				var groupPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				//0,4,5,12,13,14
+				groupPositions.addItem(allPositions.getItemAt(0) as Point);
+				groupPositions.addItem(allPositions.getItemAt(4) as Point);
+				groupPositions.addItem(allPositions.getItemAt(5) as Point);
+				groupPositions.addItem(allPositions.getItemAt(12) as Point);
+				groupPositions.addItem(allPositions.getItemAt(13) as Point);
+				groupPositions.addItem(allPositions.getItemAt(14) as Point);
+				
+				return groupPositions;
+			}
+			
+			protected function calculateGroupPositions():ArrayList{
+				var groupPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				groupPositions.addItem(allPositions.getItemAt(1) as Point);
+				groupPositions.addItem(allPositions.getItemAt(6) as Point);
+				groupPositions.addItem(allPositions.getItemAt(7) as Point);
+				groupPositions.addItem(allPositions.getItemAt(15) as Point);
+				groupPositions.addItem(allPositions.getItemAt(16) as Point);
+				groupPositions.addItem(allPositions.getItemAt(17) as Point);
+				
+				return groupPositions;
+			}
+			
+			protected function calculateEventPositions():ArrayList{
+				var eventPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				eventPositions.addItem(allPositions.getItemAt(2) as Point);
+				eventPositions.addItem(allPositions.getItemAt(8) as Point);
+				eventPositions.addItem(allPositions.getItemAt(9) as Point);
+				eventPositions.addItem(allPositions.getItemAt(18) as Point);
+				eventPositions.addItem(allPositions.getItemAt(19) as Point);
+				eventPositions.addItem(allPositions.getItemAt(20) as Point);
+				
+				return eventPositions;
+			}
+			
+			protected function calculatePagePositions():ArrayList{
+				var pagePositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				pagePositions.addItem(allPositions.getItemAt(3) as Point);
+				pagePositions.addItem(allPositions.getItemAt(10) as Point);
+				pagePositions.addItem(allPositions.getItemAt(11) as Point);
+				pagePositions.addItem(allPositions.getItemAt(21) as Point);
+				pagePositions.addItem(allPositions.getItemAt(22) as Point);
+				pagePositions.addItem(allPositions.getItemAt(23) as Point);
+				
+				return pagePositions;
+			}
+			
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
@@ -306,6 +413,8 @@
 					counter = 0;
 					if (result.length > 0){
 					//check index of array don't go out of Bounds
+						if (result.length < 24)
+							forwardImage.visible = false;
 						while (count < 24 && count < result.length){
 							FacebookDesktop.api(result[count].id, userDisplayFunction);
 							count++;
@@ -314,21 +423,23 @@
 				}
 				if(page == 2){
 					count = 24;
-					counter = 0;
+					counter = 4;
 					if (result.length > 0){
 						//check index of array don't go out of Bounds
-						while (count < 48 && count < result.length){
+						if (result.length < 48)
+							forwardImage.visible = false;
+						while (count < 44 && count < result.length){
 							FacebookDesktop.api(result[count].id, userDisplayFunction);
 							count++;
 						}
 					}
 				}
 				if(page == 3){
-					count = 48;
-					counter = 0;
+					count = 44;
+					counter = 4;
 					if (result.length > 0){
 						//check index of array don't go out of Bounds
-						while (count < 72 && count < result.length){
+						while (count < 64 && count < result.length){
 							FacebookDesktop.api(result[count].id, userDisplayFunction);
 							count++;
 						}
@@ -336,46 +447,135 @@
 				}
 			}
 			protected function groupSearchResults(result:Object, fail:Object):void {
-				
-				var count:int = 0;
-				counter = 0;
-				
-				if (result.length > 0){
-					//check index of array don't go out of Bounds
-					while (count < 24 && count < result.length){
-						FacebookDesktop.api(result[count].id, groupDisplayFunction);
-						count++;
+				var count:int;
+				if (page == 1){
+					groupResult = result;
+					groupFail = fail;
+					count = 0;
+					counter = 0;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						if (result.length < 24)
+							forwardImage.visible = false;
+						while (count < 24 && count < result.length){
+							FacebookDesktop.api(result[count].id, groupDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 2){
+					count = 24;
+					counter = 4;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						if (result.length < 48)
+							forwardImage.visible = false;
+						while (count < 44 && count < result.length){
+							FacebookDesktop.api(result[count].id, groupDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 3){
+					count = 44;
+					counter = 4;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						while (count < 64 && count < result.length){
+							FacebookDesktop.api(result[count].id, groupDisplayFunction);
+							count++;
+						}
 					}
 				}
 			}
 			protected function eventSearchResults(result:Object, fail:Object):void {
-				
-				var count:int = 0;
-				counter = 0;
-				
-				if (result.length > 0){
-					//check index of array don't go out of Bounds
-					while (count < 24 && count < result.length){
-						FacebookDesktop.api(result[count].id, eventDisplayFunction);
-						count++;
+				var count:int;
+				if (page == 1){
+					eventResult = result;
+					eventFail = fail;
+					count = 0;
+					counter = 0;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						if (result.length < 24)
+							forwardImage.visible = false;
+						while (count < 24 && count < result.length){
+							FacebookDesktop.api(result[count].id, eventDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 2){
+					count = 24;
+					counter = 4;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						if (result.length < 48)
+							forwardImage.visible = false;
+						while (count < 44 && count < result.length){
+							FacebookDesktop.api(result[count].id, eventDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 3){
+					count = 44;
+					counter = 4;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						while (count < 64 && count < result.length){
+							FacebookDesktop.api(result[count].id, eventDisplayFunction);
+							count++;
+						}
 					}
 				}
 			}
 			protected function pageSearchResults(result:Object, fail:Object):void {
-				var count:int = 0;
-				counter = 0;
-				
-				if (result.length > 0){
-					//check index of array don't go out of Bounds
-					while (count < 24 && count < result.length){
-						FacebookDesktop.api(result[count].id, pageDisplayFunction);
-						count++;
+				var count:int;
+				if (page == 1){
+					pageResult = result;
+					pageFail = fail;
+					count = 0;
+					counter = 0;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						if (result.length < 24)
+							forwardImage.visible = false;
+						while (count < 24 && count < result.length){
+							FacebookDesktop.api(result[count].id, pageDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 2){
+					count = 24;
+					counter = 4;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						if (result.length < 48)
+							forwardImage.visible = false;
+						while (count < 44 && count < result.length){
+							FacebookDesktop.api(result[count].id, pageDisplayFunction);
+							count++;
+						}
+					}
+				}
+				if(page == 3){
+					count = 44;
+					counter = 4;
+					if (result.length > 0){
+						//check index of array don't go out of Bounds
+						while (count < 64 && count < result.length){
+							FacebookDesktop.api(result[count].id, pageDisplayFunction);
+							count++;
+						}
 					}
 				}
 			}
 			
 			protected function userSearchQuad(result:Object, fail:Object):void
 			{
+				usercount=0;
 				for (var i:int=0; i<6 && i<result.length; i++)
 				{
 					FacebookDesktop.api(result[i].id, userDisplayQuad);
@@ -383,29 +583,27 @@
 			}
 			protected function pageSearchQuad(result:Object, fail:Object):void
 			{
+				pagecount=0;
 				for (var i:int=0; i<6 && i<result.length; i++)
 				{
-					pageArr[i] = result[i];
+					FacebookDesktop.api(result[i].id, pageDisplayQuad);
 				}
 			}
 			protected function groupSearchQuad(result:Object, fail:Object):void
 			{
+				groupcount=0;
 				for (var i:int=0; i<6 && i<result.length; i++)
 				{
-					groupArr[i] = result[i];
+					FacebookDesktop.api(result[i].id, groupDisplayQuad);
 				}
 			}
 			protected function eventSearchQuad(result:Object, fail:Object):void
 			{
+				eventcount=0;
 				for (var i:int=0; i<6 && i<result.length; i++)
 				{
-					eventArr[i] = result[i];
+					FacebookDesktop.api(result[i].id, eventDisplayQuad);
 				}
-			}
-			
-			protected function allSearchResults(result:Object, fail:Object):void
-			{
-				
 			}
 			
 			protected function formatDate(date:String):String
@@ -475,10 +673,12 @@
 						var tittle4:Label = new Label;
 						tittle4.text = "Pages";
 						pageResults.addElement(tittle4);
+
 						FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
 						FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
 						FacebookDesktop.api("search", eventSearchQuad, {q:searchBox.text, type:'event'});
 						FacebookDesktop.api("search", pageSearchQuad, {q:searchBox.text, type:'page'});
+						
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
@@ -496,7 +696,7 @@
 						displayGroup.removeAllElements();
 						tittle.text = "Groups";
 						groupResults.addElement(tittle);
-						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
+						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group', limit:75});
 						break;
 					case events :
 						this.currentState = "EventsSearch";
@@ -505,7 +705,7 @@
 						displayGroup.removeAllElements();
 						tittle.text = "Events";
 						eventResults.addElement(tittle);
-						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
+						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event', limit:75});
 						break;
 					case pages :
 						this.currentState = "PagesSearch";
@@ -514,7 +714,7 @@
 						displayGroup.removeAllElements();
 						tittle.text = "Pages";
 						pageResults.addElement(tittle);
-						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
+						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page', limit:75});
 						break;
 					
 				}
@@ -532,7 +732,16 @@
 				switch(this.currentState){
 					case "PeopleSearch":
 						userSearchResults(peopleResult, peopleFail);
-					break;
+						break;
+					case "GroupsSearch":
+						userSearchResults(groupResult, groupFail);
+						break;
+					case "EventsSearch":
+						userSearchResults(eventResult, eventFail);
+						break;
+					case "PagesSearch":
+						userSearchResults(pageResult, pageFail);
+						break;
 				}
 			}
 			
@@ -547,6 +756,15 @@
 				switch(this.currentState){
 					case "PeopleSearch":
 						userSearchResults(peopleResult, peopleFail);
+						break;
+					case "GroupsSearch":
+						userSearchResults(groupResult, groupFail);
+						break;
+					case "EventsSearch":
+						userSearchResults(eventResult, eventFail);
+						break;
+					case "PagesSearch":
+						userSearchResults(pageResult, pageFail);
 						break;
 				}
 			}
@@ -691,10 +909,12 @@
 		<s:Label id="nameLbl"
 				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
 				 right="159" top="20" color="#FFFFFF" fontFamily="Verdana" fontWeight="bold"/>
-	<s:Image id="backImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" visible="true" x="134" y="613"
-			 click="backImage_clickHandler(event)" source="assets/BackButton.gif"/>
-	<s:Image id="forwardImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="193" y="657"
-			 click="forwardImage_clickHandler(event)" source="assets/button_forward.jpg"/>
+	<s:Image id="backImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch"
+			 visible="true" click="backImage_clickHandler(event)"
+			 x="179" y="640" source="assets/out.png"/>
+	<s:Image id="forwardImage" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" x="193"
+			 y="657" click="forwardImage_clickHandler(event)"
+			 source="assets/in.png"/>
 
 	
 	
