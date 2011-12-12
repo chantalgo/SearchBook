@@ -8,6 +8,7 @@
 					   skinClass="skins.ScrollingSkin"
 					   maxWidth="1024"
 					   maxHeight="768">
+	<fx:Style source="stylesheet.css"/>
 	<fx:Script>
 		<![CDATA[
 			import com.facebook.graph.FacebookDesktop;
@@ -448,15 +449,23 @@
 	<s:layout.PagesSearch>
 		<s:BasicLayout/>
 	</s:layout.PagesSearch>
-	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch"
-			x="10" y="52" width="266" height="283">
-		<s:FormItem width="177"
-					width.loggedIn="345">
+	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch" x="10"
+			y="52" width="250" height="191"
+			>
+		<s:FormItem width="234"
+					backgroundColor="#DFE3EE"
+					contentBackgroundColor="#DFE3EE">
 			<s:layout>
 				<s:HorizontalLayout/>
 			</s:layout>
 			<s:TextInput id="searchBox" enter="searchBtn_enterHandler(event)"/>
-			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"/>
+			<s:Button id="searchBtn" label="Search" click="searchBtn_clickHandler(event)"
+					  skinClass.AllSearch="facebookbutton"
+					  skinClass.EventsSearch="facebookbutton"
+					  skinClass.GroupsSearch="facebookbutton"
+					  cornerRadius.loggedIn="0"
+					  skinClass.PagesSearch="facebookbutton"
+					  skinClass.PeopleSearch="facebookbutton"/>
 		</s:FormItem>
 		<s:RadioButton id="all" label="All" groupName="radiogroup1"
 					   selected.AllSearch="true"
