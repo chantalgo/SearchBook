@@ -192,11 +192,11 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-				var centerX:int = 240;
-				var centerY:int = 320;
+				var centerX:int = 290;
+				var centerY:int = 290;
 				var height:int = 610;
 				var halfHeight:int = height/2;
-				var width:int = 875;
+				var width:int = 675;
 				var halfWidth:int = width/2;
 				
 				var numLevels:int = 3;
