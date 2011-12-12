@@ -193,8 +193,8 @@
 				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
 				//var halfHeight:int = height/2;
 				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-				var centerX:int = 290;
-				var centerY:int = 290;
+				var centerX:int = 310;
+				var centerY:int = 312;
 				var height:int = 610;
 				var halfHeight:int = height/2;
 				var width:int = 675;
@@ -448,6 +448,8 @@
 	<s:layout.PagesSearch>
 		<s:BasicLayout/>
 	</s:layout.PagesSearch>
+	<s:Image id="circlebg" includeIn="EventsSearch,GroupsSearch,PagesSearch,PeopleSearch" left="0"
+			 top="30" source="assets/circle.png"/>
 	<s:Form includeIn="EventsSearch,AllSearch,PeopleSearch,PagesSearch,loggedIn,GroupsSearch" x="10"
 			y="52" width="250" height="191"
 			>
@@ -547,11 +549,12 @@
 				   color="#FFFFFF" enabled="true" fontFamily="Verdana" textDecoration="underline"
 				   right="109" top="13"/>
 	
-		<s:Image id="userImg" includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch" x="590" y="344"/>
+		<s:Image id="userImg" includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch" x="609" y="379"/>
 		<s:Label id="nameLbl"
 				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
 				 x="27" y="279"
 				 />
+
 	
 	
 </s:WindowedApplication>
