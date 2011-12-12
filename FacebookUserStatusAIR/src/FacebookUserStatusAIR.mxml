@@ -45,6 +45,7 @@
 			}
 			protected function logout():void { 
 				FacebookDesktop.logout(); 
+				this.searchBox.text="";
 				currentState="loggedOut";
 			}
 			/*protected function getStatusHandler(result:Object, fail:Object):void {
