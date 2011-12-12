@@ -144,23 +144,23 @@
 			/*
 				Not called
 			*/
-			protected function positioningDisplayFunction():void{
-				var myList:ArrayList = calculatePositions();
-				var a:int = 0;
-				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
-				//while (a<myList.length){
-				while(a<1){
-					myPoint = myList.getItemAt(a) as Point;
-					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
-					a++;
-					
-				}
-				
-				//displayGroup.addElement(new InformationDisplay().x
-				
-				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
-				//displayGroup.addElement(new RectangleDrawer2());
-			}
+//			protected function positioningDisplayFunction():void{
+//				var myList:ArrayList = calculatePositions();
+//				var a:int = 0;
+//				var myPoint:Point = new Point();// = myList.getItemAt(0) as Point;
+//				//while (a<myList.length){
+//				while(a<1){
+//					myPoint = myList.getItemAt(a) as Point;
+//					displayGroup.addElement(new RectangleDrawer(myPoint.x, myPoint.y, 80, 80));
+//					a++;
+//					
+//				}
+//				
+//				//displayGroup.addElement(new InformationDisplay().x
+//				
+//				//displayGroup.addElement(new RectangleDrawer(100, 100, 25, 150));
+//				//displayGroup.addElement(new RectangleDrawer2());
+//			}
 			
 			protected function pageDisplayFunction(result:Object, fail:Object):void{
 				var toolTipInfo:String = new String();
@@ -266,6 +266,68 @@
 				}
 				
 				return myArrayList;
+			}
+			
+			//top right corner?
+			protected function calculateUserPositions():ArrayList{
+				var userPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				//0,4,5,12,13,14
+				userPositions.addItem(allPositions.getItemAt(0) as Point);
+				userPositions.addItem(allPositions.getItemAt(4) as Point);
+				userPositions.addItem(allPositions.getItemAt(5) as Point);
+				userPositions.addItem(allPositions.getItemAt(12) as Point);
+				userPositions.addItem(allPositions.getItemAt(13) as Point);
+				userPositions.addItem(allPositions.getItemAt(14) as Point);
+				
+				return userPositions;
+			}
+			
+			protected function calculateGroupPositions():ArrayList{
+				var userPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				userPositions.addItem(allPositions.getItemAt(1) as Point);
+				userPositions.addItem(allPositions.getItemAt(6) as Point);
+				userPositions.addItem(allPositions.getItemAt(7) as Point);
+				userPositions.addItem(allPositions.getItemAt(15) as Point);
+				userPositions.addItem(allPositions.getItemAt(16) as Point);
+				userPositions.addItem(allPositions.getItemAt(17) as Point);
+				
+				return userPositions;
+			}
+			
+			protected function calculateEventPositions():ArrayList{
+				var userPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				userPositions.addItem(allPositions.getItemAt(2) as Point);
+				userPositions.addItem(allPositions.getItemAt(8) as Point);
+				userPositions.addItem(allPositions.getItemAt(9) as Point);
+				userPositions.addItem(allPositions.getItemAt(18) as Point);
+				userPositions.addItem(allPositions.getItemAt(19) as Point);
+				userPositions.addItem(allPositions.getItemAt(20) as Point);
+				
+				return userPositions;
+			}
+			
+			protected function calculatePagePositions():ArrayList{
+				var userPositions:ArrayList = new ArrayList();
+				
+				var allPositions:ArrayList = calculatePositions();
+				
+				userPositions.addItem(allPositions.getItemAt(3) as Point);
+				userPositions.addItem(allPositions.getItemAt(10) as Point);
+				userPositions.addItem(allPositions.getItemAt(11) as Point);
+				userPositions.addItem(allPositions.getItemAt(21) as Point);
+				userPositions.addItem(allPositions.getItemAt(22) as Point);
+				userPositions.addItem(allPositions.getItemAt(23) as Point);
+				
+				return userPositions;
 			}
 			
 			protected function userSearchResults(result:Object, fail:Object):void {
@@ -416,6 +478,7 @@
 						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group'});
 						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event'});
 						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page'});
+						
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
