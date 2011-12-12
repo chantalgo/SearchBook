@@ -30,7 +30,7 @@
 				if(success){ 
 					currentState="loggedIn";
 					nameLbl.text=success.user.name;
-					userImg.source=FacebookDesktop.getImageUrl(success.uid,"small");
+					userImg.source=FacebookDesktop.getImageUrl(success.uid,"square");
 					//birthdayLbl.text=success.user.birthday;
 					//FacebookDesktop.api("/me/statuses",getStatusHandler);
 					
@@ -546,11 +546,13 @@
 				   click="navigateToURL(new URLRequest('http://www.cs.columbia.edu/~cg2486/ui/searchbook/user_manual.html'),'User Manual')"
 				   color="#FFFFFF" enabled="true" fontFamily="Verdana" textDecoration="underline"
 				   right="109" top="13"/>
-	<s:VGroup includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch"
-			  x="574" y="342" width="61" height="68"
-			  x.PeopleSearch="606" width.PeopleSearch="29" textAlign.PeopleSearch="center">
-		<s:Image id="userImg"/>
-		<s:Label id="nameLbl"/>
-	</s:VGroup>
+	
+		<s:Image id="userImg" includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch" x="590" y="344"/>
+		<s:Label id="nameLbl"
+				 includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,loggedIn"
+				 x="560" y="344"
+				 />
+	<s:Label id="nameLbl0" includeIn="PeopleSearch" x="27" y="279"/>
+	
 	
 </s:WindowedApplication>
