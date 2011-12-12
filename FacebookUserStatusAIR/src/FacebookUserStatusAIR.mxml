@@ -524,38 +524,28 @@
 		<s:Image includeIn="loggedOut" x="-77" y="234" source="assets/intro.png"/>
 	</s:Group>
 	<s:Image id="searchbooktitleBar" source="assets/searchbook_title3.png"
-			 x.AllSearch="1" y.AllSearch="1"
-			 x.EventsSearch="-1" y.EventsSearch="1"
-			 x.GroupsSearch="1" y.GroupsSearch="1"
-			 left.loggedIn="1" top.loggedIn="1"
-			 x.loggedOut="1" y.loggedOut="-1"
+			 x.AllSearch="0" y.AllSearch="0"
+			 x.EventsSearch="0" y.EventsSearch="0"
+			 x.GroupsSearch="0" y.GroupsSearch="0"
+			 left.loggedIn="0" top.loggedIn="0"
+			 x.loggedOut="0" y.loggedOut="0"
 			 x.PagesSearch="0" y.PagesSearch="0"
 			 x.PeopleSearch="0" y.PeopleSearch="0"
 			 width="100%"/>	
-	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="19" top="10" label="Log In"
+	<s:Button id="loginoutBtn0" includeIn="loggedOut" right="10" top="13" label="Log In"
 			  click="login()" skinClass="skins.FBLoginButtonSkin"/>
-	<s:Button id="loginoutBtn1" includeIn="loggedIn" right="10" top="13" label="Log Out"
+	<s:Button id="loginoutBtn1" includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,PeopleSearch,loggedIn" right="10" top="13" label="Log Out"
 			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
 	<!--<s:Button id="testPositions" skinClass="skins.FBLoginButtonSkin"-->
-	<s:Button id="loginoutBtn2" includeIn="AllSearch" right="10" top="11" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn3" includeIn="PeopleSearch" right="10" top="13" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn4" includeIn="GroupsSearch" right="10" top="13" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn5" includeIn="EventsSearch" right="10" top="12" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
-	<s:Button id="loginoutBtn" includeIn="PagesSearch" right="10" top="14" label="Log Out"
-			  click="logout()" skinClass="skins.FBLogoutButtonSkin"/>
 	<mx:LinkButton id="helpLink" label="help"
 				   click="navigateToURL(new URLRequest('http://www.cs.columbia.edu/~cg2486/ui/searchbook/user_manual.html'),'User Manual')"
 				   color="#FFFFFF" enabled="true" fontFamily="Verdana" textDecoration="underline"
-				   right.AllSearch="129" top.AllSearch="12"
-				   right.EventsSearch="107" top.EventsSearch="10"
-				   right.GroupsSearch="118" top.GroupsSearch="13"
-				   right.loggedIn="107" top.loggedIn="11"
-				   right.loggedOut="121" top.loggedOut="11"
-				   right.PagesSearch="108" top.PagesSearch="12"
+				   right.AllSearch="109" top.AllSearch="13"
+				   right.EventsSearch="109" top.EventsSearch="13"
+				   right.GroupsSearch="109" top.GroupsSearch="13"
+				   right.loggedIn="109" top.loggedIn="13"
+				   right.loggedOut="109" top.loggedOut="13"
+				   right.PagesSearch="109" top.PagesSearch="13"
 				   right.PeopleSearch="109" top.PeopleSearch="13"/>
 	
 </s:WindowedApplication>
