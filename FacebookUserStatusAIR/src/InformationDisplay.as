@@ -72,12 +72,12 @@ package
 			navigateToURL(new URLRequest(resultURL));
 		}
 		public function mouseOverFunction(event:MouseEvent):void{
-			//this.setStyle("backgroundColor", "0x000000");
-			nameLabel.setStyle("color", "#3b5998");
+			//this.setStyle("backgroundColor", "#FFFFFF");
+			nameLabel.setStyle("fontWeight", "bold");
 		}
 		public function mouseOutFunction(event:MouseEvent):void{
 			//this.setStyle("backgroundColor", "0x5D81F6");
-			nameLabel.setStyle("color", "#3b5998");
+			nameLabel.setStyle("fontWeight", "normal");
 		}
 		
 		
