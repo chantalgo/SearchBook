@@ -26,13 +26,14 @@
 			private const pagePositions:ArrayList = calculatePagePositions();
 			
 			private const initAngle:int = 45;
-//			private const initAngle:int = 90;
 			
 			private var counter:int;
 			private var usercount:int;
 			private var groupcount:int;
 			private var eventcount:int;
 			private var pagecount:int;
+			
+			private var currentSearch:String;
 			
 			private var page:int;
 			private var peopleResult:Object;
@@ -43,11 +44,6 @@
 			private var groupFail:Object;
 			private var pageResult:Object;
 			private var pageFail:Object;
-			
-			private var userArr:Array;
-			private var groupArr:Array;
-			private var eventArr:Array;
-			private var pageArr:Array;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
 			{
@@ -679,6 +675,8 @@
 						FacebookDesktop.api("search", eventSearchQuad, {q:searchBox.text, type:'event'});
 						FacebookDesktop.api("search", pageSearchQuad, {q:searchBox.text, type:'page'});
 						
+						currentSearch = searchBox.text;
+						
 						break;
 					case people :
 						this.currentState = "PeopleSearch";
@@ -767,6 +765,11 @@
 						userSearchResults(pageResult, pageFail);
 						break;
 				}
+			}
+			
+			protected function detailedSearch_clickHandler(event:MouseEvent):void
+			{
+				
 			}
 			
 		]]>
