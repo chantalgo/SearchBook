@@ -549,10 +549,9 @@
 	
 		<s:Image id="userImg" includeIn="loggedIn,AllSearch,PeopleSearch,GroupsSearch,EventsSearch,PagesSearch" x="590" y="344"/>
 		<s:Label id="nameLbl"
-				 includeIn="AllSearch,EventsSearch,GroupsSearch,PagesSearch,loggedIn"
-				 x="560" y="344"
+				 includeIn="AllSearch,EventsSearch,PeopleSearch,GroupsSearch,PagesSearch,loggedIn"
+				 x="27" y="279"
 				 />
-	<s:Label id="nameLbl0" includeIn="PeopleSearch" x="27" y="279"/>
 	
 	
 </s:WindowedApplication>
