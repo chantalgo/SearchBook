@@ -1,6 +1,7 @@
 /* CSS file */
 @namespace s "library://ns.adobe.com/flex/spark";
 @namespace mx "library://ns.adobe.com/flex/mx";
+@namespace ns1 "*";
 
 s|Form
 {
@@ -25,3 +26,12 @@ s|RadioButton
 	symbolColor: #3B5998;
 }
 	
+mx|ToolTip 
+{
+	backgroundAlpha: 1.0;
+	backgroundColor: #dfe3ee;
+	color: #3b5998;
+	cornerRadius: 1;
+	fontFamily: Verdana;
+	fontSize: 10;
+}
