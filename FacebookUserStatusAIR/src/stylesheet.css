@@ -1,0 +1,28 @@
+/* CSS file */
+@namespace s "library://ns.adobe.com/flex/spark";
+@namespace mx "library://ns.adobe.com/flex/mx";
+
+
+s|Form
+{
+	backgroundColor: #DFE3EE;
+}
+s|Button
+{
+	color: #FFFFFF;
+	fontFamily: Verdana;
+	fontWeight: bold;
+	skinClass: ClassReference("facebookbutton");
+}
+s|TextInput
+{
+	contentBackgroundColor: #FFFFFF;
+}
+s|RadioButton
+{
+	chromeColor: #F7F7F7;
+	color: #3B5998;
+	fontFamily: Verdana;
+	symbolColor: #3B5998;
+}
+	
