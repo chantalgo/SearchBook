@@ -18,7 +18,7 @@
 			
 			import spark.components.Label;
 			
-			private var positions:ArrayList;
+			private const positions:ArrayList = calculatePositions();;
 			private var counter:int;
 			
 			protected function windowedapplication1_creationCompleteHandler(event:FlexEvent):void
@@ -262,8 +262,6 @@
 				var count:int = 0;
 				//count2 = 0;
 				counter = 0;
-				
-				positions = calculatePositions();
 			
 				if (result.length > 0){
 					//check index of array don't go out of Bounds
