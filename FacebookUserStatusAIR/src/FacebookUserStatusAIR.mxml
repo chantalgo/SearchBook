@@ -61,8 +61,15 @@
 				resultInfo.x = (positions.getItemAt(counter) as Point).x;
 				resultInfo.y = (positions.getItemAt(counter) as Point).y;
 				
+				resultInfo.addEventListener(MouseEvent.MOUSE_OVER, highlight);
+				
 				displayGroup.addElement(resultInfo);
 				counter++;
+			}
+			
+			protected function highlight(resultInfo:InformationDisplay):void
+			{
+				
 			}
 			
 			protected function userDisplayFunction(result:Object, fail:Object):void{
