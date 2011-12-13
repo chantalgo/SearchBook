@@ -428,6 +428,8 @@
 							count++;
 						}
 					}
+					else forwardImage.visible = false;
+			
 				}
 				if(page == 2){
 					circlebg.source = circle2;
@@ -473,6 +475,7 @@
 							count++;
 						}
 					}
+					else forwardImage.visible = false;
 				}
 				if(page == 2){
 					circlebg.source = circle2;
@@ -504,6 +507,7 @@
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
+					
 					circlebg.source = circle1;
 					eventResult = result;
 					eventFail = fail;
@@ -518,6 +522,7 @@
 							count++;
 						}
 					}
+					else forwardImage.visible = false;
 				}
 				if(page == 2){
 					circlebg.source = circle2;
@@ -563,6 +568,7 @@
 							count++;
 						}
 					}
+					else forwardImage.visible = false;
 				}
 				if(page == 2){
 					circlebg.source = circle2;
