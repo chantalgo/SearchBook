@@ -78,15 +78,15 @@
 				FacebookDesktop.login(loginHandler, ["user_birthday","read_stream", "friends_location"]);
 				
 			}
+			
 			protected function logout():void { 
 				FacebookDesktop.logout(); 
 				this.searchBox.text="";
 				currentState="loggedOut";
 			}
-			/*protected function getStatusHandler(result:Object, fail:Object):void {
-				statusLbl.text=result[0].message;
-			}*/
 			
+			/** Helper function to draw results correctly in the circle
+			 */
 			protected function displayResults(result:Object, toolTipInfo:String):void
 			{
 				var resultInfo:InformationDisplay;
@@ -272,16 +272,12 @@
 				return toolTipInfo;
 			}
 			
+			/**
+			 * Helper method to calculate the correct positions
+			 * in the circle to draw
+			 */
 			protected function calculatePositions():ArrayList{
 				var myArrayList:ArrayList = new ArrayList();
-				
-				//var height:int = Math.abs(displayGroup.scaleGridBottom - displayGroup.scaleGridTop);
-				//var halfHeight:int = height/2;
-				//var center:int = (displayGroup.scaleGridBottom + displayGroup.scaleGridTop)/2;
-
-//				var centerX:int = 240;
-//				var centerY:int = 320;
-//				var height:int = 650;
 				
 				var centerX:int = 310;
 				var centerY:int = 312;
@@ -306,7 +302,6 @@
 				var distanceY:int = 0;
 				
 				while(i<numLevels){ //loop through all levels
-//					angle = initAngle;
 					currentLevel = i+1;
 					//numPoints = currentLevel*4; //how many points to add per level
 					if (currentLevel==1){
@@ -349,7 +344,10 @@
 				return myArrayList;
 			}
 			
-			//top right corner?
+			/**
+			 * Used to calculate positions for the 4 quadrants used
+			 * in the Allsearch mode
+			 */
 			protected function calculateUserPositions():ArrayList{
 				var groupPositions:ArrayList = new ArrayList();
 				
@@ -365,7 +363,6 @@
 				
 				return groupPositions;
 			}
-			
 			protected function calculateGroupPositions():ArrayList{
 				var groupPositions:ArrayList = new ArrayList();
 				
@@ -380,7 +377,6 @@
 				
 				return groupPositions;
 			}
-			
 			protected function calculateEventPositions():ArrayList{
 				var eventPositions:ArrayList = new ArrayList();
 				
@@ -395,7 +391,6 @@
 				
 				return eventPositions;
 			}
-			
 			protected function calculatePagePositions():ArrayList{
 				var pagePositions:ArrayList = new ArrayList();
 				
@@ -411,6 +406,9 @@
 				return pagePositions;
 			}
 			
+			/**
+			 * Displays results for single category searches
+			 */
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
@@ -598,6 +596,9 @@
 				}
 			}
 			
+			/**
+			 * Displays results for the Allsearch quadrants
+			 */
 			protected function userSearchQuad(result:Object, fail:Object):void
 			{
 				usercount=0;
@@ -631,6 +632,9 @@
 				}
 			}
 			
+			/**
+			 * Helper method to format the Date in event tooltips
+			 */
 			protected function formatDate(date:String):String
 			{
 				var arr:Array = date.split('-', 3);
@@ -640,6 +644,9 @@
 				return date;
 			}
 			
+			/**
+			 * Helper method to format the Time in event tooltips
+			 */
 			protected function formatTime(time:String):String
 			{
 				var arr:Array = time.split(':', 3);
@@ -688,18 +695,6 @@
 						this.currentState = "AllSearch";
 						allSearchFlag = true;
 						displayGroup.removeAllElements();
-						
-//						tittle.text = "People";
-//						peopleResults.addElement(tittle);
-//						var tittle2:Label = new Label;
-//						tittle2.text = "Groups";
-//						groupResults.addElement(tittle2);
-//						var tittle3:Label = new Label;
-//						tittle3.text = "Events";
-//						eventResults.addElement(tittle3);
-//						var tittle4:Label = new Label;
-//						tittle4.text = "Pages";
-//						pageResults.addElement(tittle4);
 
 						FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
 						FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
@@ -797,7 +792,6 @@
 					}
 					else
 					{
-//						page--;
 						backImage.visible = true;
 					}
 				}
@@ -819,6 +813,10 @@
 				
 			}
 			
+			/**
+			 * Button handlers for performing specific searches from
+			 * the Allsearch state
+			 */
 			protected function detailedUser_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "PeopleSearch";
@@ -828,7 +826,6 @@
 
 				FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user', limit:75});
 			}
-			
 			protected function detailedGroup_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "GroupsSearch";
@@ -838,7 +835,6 @@
 
 				FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group', limit:75});
 			}
-			
 			protected function detailedEvent_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "EventsSearch";
@@ -848,7 +844,6 @@
 				
 				FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event', limit:75});
 			}
-			
 			protected function detailedPage_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "PagesSearch";
