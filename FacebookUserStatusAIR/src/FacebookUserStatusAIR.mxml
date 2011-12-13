@@ -797,6 +797,10 @@
 				else
 				{
 					page--;
+					if (page == 1)
+					{
+						backImage.visible = false;
+					}
 				}
 
 				switch(this.currentState){
