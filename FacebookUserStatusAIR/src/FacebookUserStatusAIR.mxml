@@ -19,6 +19,15 @@
 			
 			import spark.components.Label;
 			
+			[Embed(source="assets/circle.png")]
+			private var circle1:Class;
+			
+			[Embed(source="assets/circlequadcoll.png")]
+			private var circle2:Class;
+			
+			[Embed(source="assets/circlequadcoll2.png")]
+			private var circle3:Class;
+			
 			private const positions:ArrayList = calculatePositions();;
 			private const userPositions:ArrayList = calculateUserPositions();
 			private const groupPositions:ArrayList = calculateGroupPositions();
@@ -405,6 +414,7 @@
 			protected function userSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
+					circlebg.source = circle1;
 					peopleResult = result;
 					peopleFail = fail;
 					count = 0;
@@ -420,6 +430,7 @@
 					}
 				}
 				if(page == 2){
+					circlebg.source = circle2;
 					count = 24;
 					counter = 4;
 					if (result.length > 0){
@@ -433,6 +444,7 @@
 					}
 				}
 				if(page == 3){
+					circlebg.source = circle3;
 					count = 44;
 					counter = 4;
 					if (result.length > 0){
@@ -447,6 +459,7 @@
 			protected function groupSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
+					circlebg.source = circle1;
 					groupResult = result;
 					groupFail = fail;
 					count = 0;
@@ -462,6 +475,7 @@
 					}
 				}
 				if(page == 2){
+					circlebg.source = circle2;
 					count = 24;
 					counter = 4;
 					if (result.length > 0){
@@ -475,6 +489,7 @@
 					}
 				}
 				if(page == 3){
+					circlebg.source = circle3;
 					count = 44;
 					counter = 4;
 					if (result.length > 0){
@@ -489,6 +504,7 @@
 			protected function eventSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
+					circlebg.source = circle1;
 					eventResult = result;
 					eventFail = fail;
 					count = 0;
@@ -504,6 +520,7 @@
 					}
 				}
 				if(page == 2){
+					circlebg.source = circle2;
 					count = 24;
 					counter = 4;
 					if (result.length > 0){
@@ -517,6 +534,7 @@
 					}
 				}
 				if(page == 3){
+					circlebg.source = circle3;
 					count = 44;
 					counter = 4;
 					if (result.length > 0){
@@ -531,6 +549,7 @@
 			protected function pageSearchResults(result:Object, fail:Object):void {
 				var count:int;
 				if (page == 1){
+					circlebg.source = circle1;
 					pageResult = result;
 					pageFail = fail;
 					count = 0;
@@ -546,6 +565,7 @@
 					}
 				}
 				if(page == 2){
+					circlebg.source = circle2;
 					count = 24;
 					counter = 4;
 					if (result.length > 0){
@@ -559,6 +579,7 @@
 					}
 				}
 				if(page == 3){
+					circlebg.source = circle3;
 					count = 44;
 					counter = 4;
 					if (result.length > 0){
