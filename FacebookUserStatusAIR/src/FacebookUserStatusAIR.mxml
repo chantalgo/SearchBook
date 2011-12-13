@@ -768,44 +768,37 @@
 			
 			protected function backImage_clickHandler(event:MouseEvent):void
 			{
+				page--;
+				trace(page);
 				displayGroup.removeAllElements();
 				forwardImage.visible = true;
-				if (page == 1)
+				if (page == 0 && allSearchFlag)
 				{
-					if (allSearchFlag)
-					{
-						this.currentState = "AllSearch";
-						allSearchFlag = true;
-						displayGroup.removeAllElements();
-						
-//						var tittle2:Label = new Label;
-//						tittle2.text = "Groups";
-//						groupResults.addElement(tittle2);
-//						var tittle3:Label = new Label;
-//						tittle3.text = "Events";
-//						eventResults.addElement(tittle3);
-//						var tittle4:Label = new Label;
-//						tittle4.text = "Pages";
-//						pageResults.addElement(tittle4);
-						
-						FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
-						FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
-						FacebookDesktop.api("search", eventSearchQuad, {q:searchBox.text, type:'event'});
-						FacebookDesktop.api("search", pageSearchQuad, {q:searchBox.text, type:'page'});
-						
-						currentSearch = searchBox.text;
-					}
-					else
-					{
-						backImage.visible = false;
-					}
+					this.currentState = "AllSearch";
+					allSearchFlag = true;
+					displayGroup.removeAllElements();
+					
+					FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
+					FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
+					FacebookDesktop.api("search", eventSearchQuad, {q:searchBox.text, type:'event'});
+					FacebookDesktop.api("search", pageSearchQuad, {q:searchBox.text, type:'page'});
+					
+					currentSearch = searchBox.text;
+					
+					// This is required
+					page = 1;
+					return;
 				}
 				else
 				{
-					page--;
-					if (page == 1)
+					if (page == 1 && !allSearchFlag)
 					{
 						backImage.visible = false;
+					}
+					else
+					{
+//						page--;
+						backImage.visible = true;
 					}
 				}
 
@@ -862,8 +855,10 @@
 				backImage.visible = true;
 				forwardImage.visible = true;
 				displayGroup.removeAllElements();
-
+				
+				trace("hello");
 				FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page', limit:75});
+				trace("hello1");
 			}
 		]]>
 	</fx:Script>
