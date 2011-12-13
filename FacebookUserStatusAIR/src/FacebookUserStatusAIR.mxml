@@ -35,6 +35,8 @@
 			
 			private var currentSearch:String;
 			
+			private var allSearchFlag:Boolean = false;
+			
 			private var page:int;
 			private var peopleResult:Object;
 			private var peopleFail:Object;
@@ -653,22 +655,24 @@
 			{
 				var tittle:Label = new Label;
 				page = 1;
+				allSearchFlag = false;
 				switch (radiogroup1.selection) {
 					case all :
 						this.currentState = "AllSearch";
+						allSearchFlag = true;
 						displayGroup.removeAllElements();
 						
-						tittle.text = "People";
-						peopleResults.addElement(tittle);
-						var tittle2:Label = new Label;
-						tittle2.text = "Groups";
-						groupResults.addElement(tittle2);
-						var tittle3:Label = new Label;
-						tittle3.text = "Events";
-						eventResults.addElement(tittle3);
-						var tittle4:Label = new Label;
-						tittle4.text = "Pages";
-						pageResults.addElement(tittle4);
+//						tittle.text = "People";
+//						peopleResults.addElement(tittle);
+//						var tittle2:Label = new Label;
+//						tittle2.text = "Groups";
+//						groupResults.addElement(tittle2);
+//						var tittle3:Label = new Label;
+//						tittle3.text = "Events";
+//						eventResults.addElement(tittle3);
+//						var tittle4:Label = new Label;
+//						tittle4.text = "Pages";
+//						pageResults.addElement(tittle4);
 
 						FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
 						FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
@@ -683,8 +687,6 @@
 						backImage.visible = false;
 						forwardImage.visible = true;
 						displayGroup.removeAllElements();
-						tittle.text = "People";
-						peopleResults.addElement(tittle);
 						FacebookDesktop.api("search", userSearchResults, {q:searchBox.text, type:'user', limit:75});
 						break;
 					case groups :
@@ -692,8 +694,6 @@
 						backImage.visible = false;
 						forwardImage.visible = true;
 						displayGroup.removeAllElements();
-						tittle.text = "Groups";
-						groupResults.addElement(tittle);
 						FacebookDesktop.api("search", groupSearchResults, {q:searchBox.text, type:'group', limit:75});
 						break;
 					case events :
@@ -701,8 +701,6 @@
 						backImage.visible = false;
 						forwardImage.visible = true;
 						displayGroup.removeAllElements();
-						tittle.text = "Events";
-						eventResults.addElement(tittle);
 						FacebookDesktop.api("search", eventSearchResults, {q:searchBox.text, type:'event', limit:75});
 						break;
 					case pages :
@@ -710,8 +708,6 @@
 						backImage.visible = false;
 						forwardImage.visible = true;
 						displayGroup.removeAllElements();
-						tittle.text = "Pages";
-						pageResults.addElement(tittle);
 						FacebookDesktop.api("search", pageSearchResults, {q:searchBox.text, type:'page', limit:75});
 						break;
 					
@@ -747,10 +743,41 @@
 			{
 				displayGroup.removeAllElements();
 				forwardImage.visible = true;
-				if (page > 1)
-					page--;
 				if (page == 1)
-					backImage.visible = false;
+				{
+					if (allSearchFlag)
+					{
+						this.currentState = "AllSearch";
+						allSearchFlag = true;
+						displayGroup.removeAllElements();
+						
+//						var tittle2:Label = new Label;
+//						tittle2.text = "Groups";
+//						groupResults.addElement(tittle2);
+//						var tittle3:Label = new Label;
+//						tittle3.text = "Events";
+//						eventResults.addElement(tittle3);
+//						var tittle4:Label = new Label;
+//						tittle4.text = "Pages";
+//						pageResults.addElement(tittle4);
+						
+						FacebookDesktop.api("search", userSearchQuad, {q:searchBox.text, type:'user'});
+						FacebookDesktop.api("search", groupSearchQuad, {q:searchBox.text, type:'group'});
+						FacebookDesktop.api("search", eventSearchQuad, {q:searchBox.text, type:'event'});
+						FacebookDesktop.api("search", pageSearchQuad, {q:searchBox.text, type:'page'});
+						
+						currentSearch = searchBox.text;
+					}
+					else
+					{
+						backImage.visible = false;
+					}
+				}
+				else
+				{
+					page--;
+				}
+
 				switch(this.currentState){
 					case "PeopleSearch":
 						userSearchResults(peopleResult, peopleFail);
@@ -765,12 +792,13 @@
 						userSearchResults(pageResult, pageFail);
 						break;
 				}
+				
 			}
 			
 			protected function detailedUser_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "PeopleSearch";
-				backImage.visible = false;
+				backImage.visible = true;
 				forwardImage.visible = true;
 				displayGroup.removeAllElements();
 
@@ -780,7 +808,7 @@
 			protected function detailedGroup_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "GroupsSearch";
-				backImage.visible = false;
+				backImage.visible = true;
 				forwardImage.visible = true;
 				displayGroup.removeAllElements();
 
@@ -790,7 +818,7 @@
 			protected function detailedEvent_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "EventsSearch";
-				backImage.visible = false;
+				backImage.visible = true;
 				forwardImage.visible = true;
 				displayGroup.removeAllElements();
 				
@@ -800,7 +828,7 @@
 			protected function detailedPage_clickHandler(event:MouseEvent):void
 			{
 				this.currentState = "PagesSearch";
-				backImage.visible = false;
+				backImage.visible = true;
 				forwardImage.visible = true;
 				displayGroup.removeAllElements();
 
@@ -953,21 +981,21 @@
 			 y="657" click="forwardImage_clickHandler(event)"
 			 source="assets/in.png"/>
 	<s:Image id="userSearchImage" includeIn="AllSearch" 
-			 x="900" y="100" 
+			 x="868" y="108" 
 			 click="detailedUser_clickHandler(event)" 
-			 source="assets/moreusers.png"/>
+			 source="assets/peoplesearch.png"/>
 	<s:Image id="groupSearchImage" includeIn="AllSearch" 
-			 x="350" y="100" 
+			 x="279" y="110" 
 			 click="detailedGroup_clickHandler(event)" 
-			 source="assets/moregroups.png"/>
+			 source="assets/groupsearch.png"/>
 	<s:Image id="eventSearchImage" includeIn="AllSearch" 
-			 x="350" y="650" 
+			 x="264" y="644" 
 			 click="detailedEvent_clickHandler(event)" 
-			 source="assets/moreevents.png"/>
+			 source="assets/eventssearch.png"/>
 	<s:Image id="pageSearchImage" includeIn="AllSearch" 
-			 x="900" y="650" 
+			 x="881" y="646" 
 			 click="detailedPage_clickHandler(event)" 
-			 source="assets/morepages.png"/>
+			 source="assets/pagessearch.png"/>
 
 	
 	
